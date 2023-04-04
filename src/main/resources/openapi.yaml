@@ -1,0 +1,85 @@
+openapi: 3.0.3
+info:
+  title: ATMs service team task
+  version: 0.0.1
+servers:
+- url: http://localhost:8080/
+paths:
+  /atms/calculateOrder:
+    post:
+      description: Calculates ATMs order for service team
+      operationId: calculate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceTasks'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: Successful operation
+      x-content-type: application/json
+      x-accepts: application/json
+components:
+  schemas:
+    ServiceTasks:
+      description: List of service tasks
+      items:
+        $ref: '#/components/schemas/Task'
+      type: array
+    Task:
+      example:
+        requestType: STANDARD
+        atmId: 500
+        region: 10
+      properties:
+        region:
+          example: 10
+          format: int32
+          maximum: 9999
+          minimum: 1
+          type: integer
+        requestType:
+          description: Type of request
+          enum:
+          - STANDARD
+          - PRIORITY
+          - SIGNAL_LOW
+          - FAILURE_RESTART
+          example: STANDARD
+          type: string
+        atmId:
+          example: 500
+          format: int32
+          maximum: 9999
+          minimum: 1
+          type: integer
+      type: object
+    Order:
+      description: Ordered list of ATMs to service
+      items:
+        $ref: '#/components/schemas/ATM'
+      type: array
+    ATM:
+      description: ATMs details
+      example:
+        atmId: 500
+        region: 10
+      properties:
+        region:
+          example: 10
+          format: int32
+          maximum: 9999
+          minimum: 1
+          type: integer
+        atmId:
+          example: 500
+          format: int32
+          maximum: 9999
+          minimum: 1
+          type: integer
+      type: object
