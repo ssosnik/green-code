@@ -16,10 +16,10 @@ import com.fasterxml.jackson.databind.Module;
     basePackages = {"com.ssosnik.greencode", "com.ssosnik.greencode.api" , "com.ssosnik.greencode.configuration"},
     nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
-public class OpenApiGeneratorApplication {
+public class GreenCodeApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OpenApiGeneratorApplication.class, args);
+        SpringApplication.run(GreenCodeApplication.class, args);
     }
 
     @Bean(name = "com.ssosnik.greencode.OpenApiGeneratorApplication.jsonNullableModule")
