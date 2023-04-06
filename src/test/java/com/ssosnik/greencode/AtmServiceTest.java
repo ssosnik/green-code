@@ -1,4 +1,4 @@
-package org.openapitools;
+package com.ssosnik.greencode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,11 +11,13 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -25,6 +27,7 @@ import com.ssosnik.greencode.api.AtmService;
 import com.ssosnik.greencode.model.ATM;
 import com.ssosnik.greencode.model.Task;
 
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class AtmServiceTest {
 	

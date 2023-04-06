@@ -1,4 +1,4 @@
-package org.openapitools;
+package com.ssosnik.greencode;
 
 import java.io.File;
 import java.io.IOException;
