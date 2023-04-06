@@ -25,7 +25,7 @@ public class AtmServiceImpl implements AtmService {
 	@Override
 	public List<ATM> calculateSortedATMList(List<Task> taskList) {
 
-		List<ATM> combinedAtmList = taskList.size() < 1000 ? 
+		List<ATM> combinedAtmList = taskList.size() < 10 ? 
 				simpleSolution(taskList) : parallelSoution(taskList);
 
 		return combinedAtmList;
@@ -58,7 +58,7 @@ public class AtmServiceImpl implements AtmService {
 		Map<Integer, Map<Integer, List<Integer>>> atmMap = new HashMap<>();
 		for (Task task : taskList) {
 			int region = task.getRegion();
-			int priority = task.getRequestPriority();
+			int priority = task.getRequestType().ordinal();
 			int atmId = task.getAtmId();
 
 			atmMap.computeIfAbsent(region, r -> new HashMap<>()).computeIfAbsent(priority, p -> new ArrayList<>())

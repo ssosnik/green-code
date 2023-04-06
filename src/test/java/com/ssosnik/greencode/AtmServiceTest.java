@@ -47,8 +47,18 @@ public class AtmServiceTest {
         List<Task> tasks = readInput(jsonFileName);
         List<ATM> expectedResult = readOutput(jsonFileName);
 
+        // Record the start time
+        long startTime = System.currentTimeMillis();
+
         // Act
         List<ATM> actualResult = atmService.calculateSortedATMList(tasks);
+
+        // Record the end time
+        long endTime = System.currentTimeMillis();
+
+        // Calculate and print the elapsed time
+        long elapsedTime = endTime - startTime;
+        System.out.println(jsonFileName + " time: " + elapsedTime);
 
         // Assert
         assertEquals(expectedResult, actualResult);

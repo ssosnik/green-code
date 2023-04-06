@@ -5,6 +5,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -105,7 +106,8 @@ public class Task {
   public RequestTypeEnum getRequestType() {
     return requestType;
   }
-  
+  	
+    @JsonIgnore
 	public Integer getRequestPriority() {
 		return requestType.getPriority();
 	}
