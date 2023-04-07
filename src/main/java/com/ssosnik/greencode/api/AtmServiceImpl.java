@@ -103,14 +103,14 @@ public class AtmServiceImpl implements AtmService {
 	}
 
 	@Override
-	public List<ATM> calculateSortedATMList(@Valid List<Task> taskList, CalculateMethod method) {
+	public List<ATM> calculateSortedATMList(List<Task> taskList, CalculateMethod method) {
 		List<ATM> combinedAtmList = method == CalculateMethod.Simple ? simpleSolution(taskList)
 				: method == CalculateMethod.Serial ? serialSoution(taskList) : parallelSoution(taskList);
 
 		return combinedAtmList;
 	}
 
-	private List<ATM> serialSoution(@Valid List<Task> taskList) {
+	private List<ATM> serialSoution(List<Task> taskList) {
 		Map<Integer, Map<Integer, List<Integer>>> atmMap = new HashMap<>();
 		for (Task task : taskList) {
 			int region = task.getRegion();

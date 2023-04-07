@@ -6,12 +6,10 @@ import com.ssosnik.greencode.api.AtmServiceImpl.CalculateMethod;
 import com.ssosnik.greencode.model.ATM;
 import com.ssosnik.greencode.model.Task;
 
-import jakarta.validation.Valid;
-
 public interface AtmService {
 
-	List<ATM> calculateSortedATMList(@Valid List<Task> taskList);
+	List<ATM> calculateSortedATMList(List<Task> taskList);
 
-	List<ATM> calculateSortedATMList(@Valid List<Task> taskList, CalculateMethod method);
+	List<ATM> calculateSortedATMList(List<Task> taskList, CalculateMethod method);
 
 }
