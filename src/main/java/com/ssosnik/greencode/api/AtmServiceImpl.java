@@ -17,16 +17,21 @@ import org.springframework.stereotype.Service;
 import com.ssosnik.greencode.model.ATM;
 import com.ssosnik.greencode.model.Task;
 
+import jakarta.validation.Valid;
+
 @Service
 public class AtmServiceImpl implements AtmService {
 	private static Comparator<Task> comparator = Comparator.comparing(Task::getRegion)
 			.thenComparing(Task::getRequestPriority);
 
+	public enum CalculateMethod {
+		Simple, Serial, Parallel,
+	}
+
 	@Override
 	public List<ATM> calculateSortedATMList(List<Task> taskList) {
 
-		List<ATM> combinedAtmList = taskList.size() < 10 ? 
-				simpleSolution(taskList) : parallelSoution(taskList);
+		List<ATM> combinedAtmList = taskList.size() <= 1000 ? simpleSolution(taskList) : parallelSoution(taskList);
 
 		return combinedAtmList;
 	}
@@ -90,6 +95,52 @@ public class AtmServiceImpl implements AtmService {
 		// Sort the map by key
 		Map<Integer, List<ATM>> sortedMap = new TreeMap<>(atmListByRegion);
 
+		List<ATM> combinedAtmList = new ArrayList<>();
+		for (List<ATM> atms : sortedMap.values()) {
+			combinedAtmList.addAll(atms);
+		}
+		return combinedAtmList;
+	}
+
+	@Override
+	public List<ATM> calculateSortedATMList(@Valid List<Task> taskList, CalculateMethod method) {
+		List<ATM> combinedAtmList = method == CalculateMethod.Simple ? simpleSolution(taskList)
+				: method == CalculateMethod.Serial ? serialSoution(taskList) : parallelSoution(taskList);
+
+		return combinedAtmList;
+	}
+
+	private List<ATM> serialSoution(@Valid List<Task> taskList) {
+		Map<Integer, Map<Integer, List<Integer>>> atmMap = new HashMap<>();
+		for (Task task : taskList) {
+			int region = task.getRegion();
+			int priority = task.getRequestType().ordinal();
+			int atmId = task.getAtmId();
+
+			atmMap.computeIfAbsent(region, r -> new HashMap<>()).computeIfAbsent(priority, p -> new ArrayList<>())
+					.add(atmId);
+		}
+
+		Map<Integer, List<ATM>> atmListByRegion = new HashMap<>();
+
+		atmMap.keySet().stream().forEach(region -> {
+			Set<Integer> usedAtmIds = new HashSet<Integer>();
+			List<ATM> atmList = new ArrayList<>();
+			atmListByRegion.put(region, atmList);
+			Map<Integer, List<Integer>> atmPriorityMap = atmMap.get(region);
+			List<Integer> keyList = new ArrayList<>(atmPriorityMap.keySet());
+			Collections.sort(keyList);
+			for (Integer key : keyList) {
+				for (Integer atmId : atmPriorityMap.get(key)) {
+					if (!usedAtmIds.contains(atmId)) {
+						usedAtmIds.add(atmId);
+						atmList.add(new ATM(region, atmId));
+					}
+				}
+			}
+		});
+
+		Map<Integer, List<ATM>> sortedMap = new TreeMap<>(atmListByRegion);
 		List<ATM> combinedAtmList = new ArrayList<>();
 		for (List<ATM> atms : sortedMap.values()) {
 			combinedAtmList.addAll(atms);

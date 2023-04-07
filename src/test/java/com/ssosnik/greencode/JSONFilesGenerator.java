@@ -51,7 +51,7 @@ public class JSONFilesGenerator {
     public static void main(String[] args) throws IOException {
         JSONFilesGenerator generator = new JSONFilesGenerator();
 
-        for (int i=2; i<=5; i++) {
+        for (int i=2; i<=6; i++) {
         	BigInteger a = new BigInteger("10");
         	BigInteger size = a.pow(i); 
 	        List<Task> taskList = generator.createRandomTaskList(size.intValue());

@@ -1,5 +1,7 @@
 package com.ssosnik.greencode.model;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.annotation.Generated;
@@ -26,21 +28,23 @@ public class Task {
    * Type of request
    */
   public enum RequestTypeEnum {
-    FAILURE_RESTART("FAILURE_RESTART", 10),
-    PRIORITY("PRIORITY", 20),
-    SIGNAL_LOW("SIGNAL_LOW", 30),
-    STANDARD("STANDARD", 40);
+    FAILURE_RESTART("FAILURE_RESTART"),
+    PRIORITY("PRIORITY"),
+    SIGNAL_LOW("SIGNAL_LOW"),
+    STANDARD("STANDARD");
+	  
+	    private static final Map<String, RequestTypeEnum> STRING_TO_VALUE_MAP = new HashMap<>();
+
+	    static {
+	        for (RequestTypeEnum e : values()) {
+	            STRING_TO_VALUE_MAP.put(e.value, e);
+	        }
+	    }
 
     private String value;
-    private Integer priority;
 
-    RequestTypeEnum(String value, Integer priority) {
+    RequestTypeEnum(String value) {
       this.value = value;
-      this.priority = priority;
-    }
-
-    public Integer getPriority() {
-      return priority;
     }
 
     @JsonValue
@@ -55,13 +59,11 @@ public class Task {
 
     @JsonCreator
     public static RequestTypeEnum fromValue(String value) {
-    	// TODO create HashMap
-      for (RequestTypeEnum b : RequestTypeEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
+        RequestTypeEnum result = STRING_TO_VALUE_MAP.get(value);
+        if (result == null) {
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        return result;
     }
   }
 
@@ -109,7 +111,7 @@ public class Task {
   	
     @JsonIgnore
 	public Integer getRequestPriority() {
-		return requestType.getPriority();
+		return requestType.ordinal();
 	}
 
 	
