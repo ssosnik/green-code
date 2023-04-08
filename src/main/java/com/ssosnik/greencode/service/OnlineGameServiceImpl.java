@@ -1,5 +1,6 @@
 package com.ssosnik.greencode.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -13,6 +14,6 @@ public class OnlineGameServiceImpl implements OnlineGameService {
 	@Override
 	public List<List<Clan>> calculateClanList(Players players) {
 		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 }
