@@ -68,60 +68,26 @@ public class AtmServiceTest {
         assertEquals(expectedResult, actualResult);
     }
     
-//    @ParameterizedTest
-//    @MethodSource("jsonFiles")
+    @ParameterizedTest
+    @MethodSource("jsonFiles")
     public void testCalculateSimple(String jsonFileName) throws IOException {
-        // Arrange
-        List<Task> tasks = readInput(jsonFileName);
-        List<ATM> expectedResult = readOutput(jsonFileName);
-
-        // Record the start time
-        long startTime = System.currentTimeMillis();
-
-        // Act
-        List<ATM> actualResult = atmService.calculateSortedATMList(tasks, CalculateMethod.Simple);
-
-        // Record the end time
-        long endTime = System.currentTimeMillis();
-
-        // Calculate and print the elapsed time
-        long elapsedTime = endTime - startTime;
-        System.out.println("simple: " + jsonFileName + " time: " + elapsedTime);
-
-        // Assert
-        assertEquals(expectedResult, actualResult);
+        testCalculateMethod(jsonFileName, CalculateMethod.Simple);
     }
 
     @ParameterizedTest
     @MethodSource("jsonFiles")
     public void testCalculateSerial(String jsonFileName) throws IOException {
-        // Arrange
-        long startTime = System.currentTimeMillis();
-        List<Task> tasks = readInput(jsonFileName);
-        long endTime = System.currentTimeMillis();
-        long elapsedTime1 = endTime - startTime;
-        List<ATM> expectedResult = readOutput(jsonFileName);
-
-        // Record the start time
-        startTime = System.currentTimeMillis();
-
-        // Act
-        List<ATM> actualResult = atmService.calculateSortedATMList(tasks, CalculateMethod.Serial);
-
-        // Record the end time
-        endTime = System.currentTimeMillis();
-
-        // Calculate and print the elapsed time
-        long elapsedTime2 = endTime - startTime;
-        System.out.println("serial: " + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2);
-
-        // Assert
-        assertEquals(expectedResult, actualResult);
+        testCalculateMethod(jsonFileName, CalculateMethod.Serial);
     }
 
     @ParameterizedTest
     @MethodSource("jsonFiles")
     public void testCalculateParallel(String jsonFileName) throws IOException {
+        testCalculateMethod(jsonFileName, CalculateMethod.Parallel);
+    }
+
+	private void testCalculateMethod(String jsonFileName, CalculateMethod calculateMethod) throws IOException, StreamReadException, DatabindException {
+		// Arrange
         long startTime = System.currentTimeMillis();
         List<Task> tasks = readInput(jsonFileName);
         long endTime = System.currentTimeMillis();
@@ -132,18 +98,18 @@ public class AtmServiceTest {
         startTime = System.currentTimeMillis();
 
         // Act
-        List<ATM> actualResult = atmService.calculateSortedATMList(tasks, CalculateMethod.Parallel);
+        List<ATM> actualResult = atmService.calculateSortedATMList(tasks, calculateMethod);
 
         // Record the end time
         endTime = System.currentTimeMillis();
 
         // Calculate and print the elapsed time
         long elapsedTime2 = endTime - startTime;
-        System.out.println("parallel: " + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2);
+        System.out.println(calculateMethod.toString() + ", " + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2);
 
         // Assert
         assertEquals(expectedResult, actualResult);
-    }
+	}
 
 	private List<ATM> readOutput(String jsonFileName) throws IOException, StreamReadException, DatabindException {
 		String testFilePath = TESTING_FILES_RESOURCE_DIRECTORY_OUTPUT + jsonFileName;

@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 import com.ssosnik.greencode.model.ATM;
 import com.ssosnik.greencode.model.Task;
 
-import jakarta.validation.Valid;
-
 @Service
 public class AtmServiceImpl implements AtmService {
 	private static Comparator<Task> comparator = Comparator.comparing(Task::getRegion)
