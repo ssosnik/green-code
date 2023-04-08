@@ -22,164 +22,159 @@ import jakarta.validation.constraints.Min;
 @Generated(value = "com.ssosnik.greencode.codegen.languages.SpringCodegen", date = "2023-04-01T15:51:15.919232900+02:00[Europe/Warsaw]")
 public class Task {
 
-  private Integer region;
+	private Integer region;
 
-  /**
-   * Type of request
-   */
-  public enum RequestTypeEnum {
-    FAILURE_RESTART("FAILURE_RESTART"),
-    PRIORITY("PRIORITY"),
-    SIGNAL_LOW("SIGNAL_LOW"),
-    STANDARD("STANDARD");
-	  
-	    private static final Map<String, RequestTypeEnum> STRING_TO_VALUE_MAP = new HashMap<>();
+	/**
+	 * Type of request
+	 */
+	public enum RequestTypeEnum {
+		FAILURE_RESTART("FAILURE_RESTART"), PRIORITY("PRIORITY"), SIGNAL_LOW("SIGNAL_LOW"), STANDARD("STANDARD");
 
-	    static {
-	        for (RequestTypeEnum e : values()) {
-	            STRING_TO_VALUE_MAP.put(e.value, e);
-	        }
-	    }
+		private static final Map<String, RequestTypeEnum> STRING_TO_VALUE_MAP = new HashMap<>();
 
-    private String value;
+		static {
+			for (RequestTypeEnum e : values()) {
+				STRING_TO_VALUE_MAP.put(e.value, e);
+			}
+		}
 
-    RequestTypeEnum(String value) {
-      this.value = value;
-    }
+		private String value;
 
-    @JsonValue
-    public String getValue() {
-      return value;
-    }
-    
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
+		RequestTypeEnum(String value) {
+			this.value = value;
+		}
 
-    @JsonCreator
-    public static RequestTypeEnum fromValue(String value) {
-        RequestTypeEnum result = STRING_TO_VALUE_MAP.get(value);
-        if (result == null) {
-            throw new IllegalArgumentException("Unexpected value '" + value + "'");
-        }
-        return result;
-    }
-  }
+		@JsonValue
+		public String getValue() {
+			return value;
+		}
 
-  private RequestTypeEnum requestType;
+		@Override
+		public String toString() {
+			return String.valueOf(value);
+		}
 
-  private Integer atmId;
+		@JsonCreator
+		public static RequestTypeEnum fromValue(String value) {
+			RequestTypeEnum result = STRING_TO_VALUE_MAP.get(value);
+			if (result == null) {
+				throw new IllegalArgumentException("Unexpected value '" + value + "'");
+			}
+			return result;
+		}
+	}
 
-  public Task region(Integer region) {
-    this.region = region;
-    return this;
-  }
+	private RequestTypeEnum requestType;
 
-  /**
-   * Get region
-   * minimum: 1
-   * maximum: 9999
-   * @return region
-  */
-  @Min(1) @Max(9999) 
-  @Schema(name = "region", example = "10", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("region")
-  public Integer getRegion() {
-    return region;
-  }
+	private Integer atmId;
 
-  public void setRegion(Integer region) {
-    this.region = region;
-  }
+	public Task region(Integer region) {
+		this.region = region;
+		return this;
+	}
 
-  public Task requestType(RequestTypeEnum requestType) {
-    this.requestType = requestType;
-    return this;
-  }
+	/**
+	 * Get region minimum: 1 maximum: 9999
+	 * 
+	 * @return region
+	 */
+	@Min(1)
+	@Max(9999)
+	@Schema(name = "region", example = "10", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+	@JsonProperty("region")
+	public Integer getRegion() {
+		return region;
+	}
 
-  /**
-   * Type of request
-   * @return requestType
-  */
-  
-  @Schema(name = "requestType", example = "STANDARD", description = "Type of request", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("requestType")
-  public RequestTypeEnum getRequestType() {
-    return requestType;
-  }
-  	
-    @JsonIgnore
+	public void setRegion(Integer region) {
+		this.region = region;
+	}
+
+	public Task requestType(RequestTypeEnum requestType) {
+		this.requestType = requestType;
+		return this;
+	}
+
+	/**
+	 * Type of request
+	 * 
+	 * @return requestType
+	 */
+
+	@Schema(name = "requestType", example = "STANDARD", description = "Type of request", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+	@JsonProperty("requestType")
+	public RequestTypeEnum getRequestType() {
+		return requestType;
+	}
+
+	@JsonIgnore
 	public Integer getRequestPriority() {
 		return requestType.ordinal();
 	}
 
-	
-  public void setRequestType(RequestTypeEnum requestType) {
-    this.requestType = requestType;
-  }
+	public void setRequestType(RequestTypeEnum requestType) {
+		this.requestType = requestType;
+	}
 
-  public Task atmId(Integer atmId) {
-    this.atmId = atmId;
-    return this;
-  }
+	public Task atmId(Integer atmId) {
+		this.atmId = atmId;
+		return this;
+	}
 
-  /**
-   * Get atmId
-   * minimum: 1
-   * maximum: 9999
-   * @return atmId
-  */
-  @Min(1) @Max(9999) 
-  @Schema(name = "atmId", example = "500", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("atmId")
-  public Integer getAtmId() {
-    return atmId;
-  }
+	/**
+	 * Get atmId minimum: 1 maximum: 9999
+	 * 
+	 * @return atmId
+	 */
+	@Min(1)
+	@Max(9999)
+	@Schema(name = "atmId", example = "500", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+	@JsonProperty("atmId")
+	public Integer getAtmId() {
+		return atmId;
+	}
 
-  public void setAtmId(Integer atmId) {
-    this.atmId = atmId;
-  }
+	public void setAtmId(Integer atmId) {
+		this.atmId = atmId;
+	}
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Task task = (Task) o;
-    return Objects.equals(this.region, task.region) &&
-        Objects.equals(this.requestType, task.requestType) &&
-        Objects.equals(this.atmId, task.atmId);
-  }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		Task task = (Task) o;
+		return Objects.equals(this.region, task.region) && Objects.equals(this.requestType, task.requestType)
+				&& Objects.equals(this.atmId, task.atmId);
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(region, requestType, atmId);
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(region, requestType, atmId);
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Task {\n");
-    sb.append("    region: ").append(toIndentedString(region)).append("\n");
-    sb.append("    requestType: ").append(toIndentedString(requestType)).append("\n");
-    sb.append("    atmId: ").append(toIndentedString(atmId)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class Task {\n");
+		sb.append("    region: ").append(toIndentedString(region)).append("\n");
+		sb.append("    requestType: ").append(toIndentedString(requestType)).append("\n");
+		sb.append("    atmId: ").append(toIndentedString(atmId)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+	/**
+	 * Convert the given object to string with each line indented by 4 spaces
+	 * (except the first line).
+	 */
+	private String toIndentedString(Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }
-

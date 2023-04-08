@@ -32,33 +32,21 @@ import jakarta.validation.Valid;
 @Tag(name = "atms", description = "the atms API")
 public interface AtmsApi {
 
-    /**
-     * POST /atms/calculateOrder
-     * Calculates ATMs order for service team
-     *
-     * @param task  (required)
-     * @return Successful operation (status code 200)
-     */
-    @Operation(
-        operationId = "calculate",
-        description = "Calculates ATMs order for service team",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Successful operation", content = {
-                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ATM.class)))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.POST,
-        value = "/atms/calculateOrder",
-        produces = { "application/json" },
-        consumes = { "application/json" }
-    )
-    default ResponseEntity<List<ATM>> calculate(
-        @Parameter(name = "Task", description = "", required = true) @Valid @RequestBody List<Task> task
-    ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+	/**
+	 * POST /atms/calculateOrder Calculates ATMs order for service team
+	 *
+	 * @param task (required)
+	 * @return Successful operation (status code 200)
+	 */
+	@Operation(operationId = "calculate", description = "Calculates ATMs order for service team", responses = {
+			@ApiResponse(responseCode = "200", description = "Successful operation", content = {
+					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ATM.class))) }) })
+	@RequestMapping(method = RequestMethod.POST, value = "/atms/calculateOrder", produces = {
+			"application/json" }, consumes = { "application/json" })
+	default ResponseEntity<List<ATM>> calculate(
+			@Parameter(name = "Task", description = "", required = true) @Valid @RequestBody List<Task> task) {
+		return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
-    }
+	}
 
 }

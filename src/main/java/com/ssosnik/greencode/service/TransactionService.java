@@ -11,5 +11,4 @@ public interface TransactionService {
 
 	List<Account> calculateAccountList(List<Transaction> transaction);
 
-
 }

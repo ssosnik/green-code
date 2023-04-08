@@ -39,59 +39,59 @@ import com.ssosnik.greencode.model.ATM;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AtmsApiTest {
-	
+
 	static private String TESTING_FILES_RESOURCE_DIRECTORY = "testing-files/atmservice/";
 	static private String TESTING_FILES_RESOURCE_DIRECTORY_INPUT = TESTING_FILES_RESOURCE_DIRECTORY + "request/";
 	static private String TESTING_FILES_RESOURCE_DIRECTORY_OUTPUT = TESTING_FILES_RESOURCE_DIRECTORY + "response/";
-		
-    private TestRestTemplate restTemplate;
-    
-    @LocalServerPort
-    private int port;
 
-    @BeforeEach
-    public void setUp() {
+	private TestRestTemplate restTemplate;
+
+	@LocalServerPort
+	private int port;
+
+	@BeforeEach
+	public void setUp() {
 //    	System.out.println("Server running on port " + port);
-        RestTemplateBuilder builder = new RestTemplateBuilder();
-        restTemplate = new TestRestTemplate(builder);
-    }
-    
-    @ParameterizedTest
-    @MethodSource("jsonFiles")
-    public void testCalculate(String jsonFileName) throws Exception {
-        // Arrange
+		RestTemplateBuilder builder = new RestTemplateBuilder();
+		restTemplate = new TestRestTemplate(builder);
+	}
+
+	@ParameterizedTest
+	@MethodSource("jsonFiles")
+	public void testCalculate(String jsonFileName) throws Exception {
+		// Arrange
 		String testFilePath = TESTING_FILES_RESOURCE_DIRECTORY_INPUT + jsonFileName;
 		ClassPathResource inputResource = new ClassPathResource(testFilePath);
-    	HttpHeaders headers = new HttpHeaders();
-    	headers.setContentType(MediaType.APPLICATION_JSON);
-    	HttpEntity<ClassPathResource> requestEntity = new HttpEntity<>(inputResource, headers);  
-    	List<ATM> expectedResult = readOutput(jsonFileName);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<ClassPathResource> requestEntity = new HttpEntity<>(inputResource, headers);
+		List<ATM> expectedResult = readOutput(jsonFileName);
 
-    	UriComponents uriComponents = UriComponentsBuilder.newInstance()
-    	        .scheme("http").host("localhost").port(port).path("/atms/calculateOrder").build();
-    	String requestUrl = uriComponents.toUriString();
-    	
-        // Act
-        long startTime = System.currentTimeMillis();       
-        ResponseEntity<List<ATM>> response = restTemplate.exchange(requestUrl,
-                HttpMethod.POST,
-                requestEntity,
-                new ParameterizedTypeReference<List<ATM>>() {});
-        long endTime = System.currentTimeMillis();
-        long requestTime = endTime - startTime;
-        System.out.println( jsonFileName + " request time: " + requestTime);
+		UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("http").host("localhost").port(port)
+				.path("/atms/calculateOrder").build();
+		String requestUrl = uriComponents.toUriString();
 
-        // Assert
-        assertEquals(expectedResult, response.getBody());
-    }
-    
+		// Act
+		long startTime = System.currentTimeMillis();
+		ResponseEntity<List<ATM>> response = restTemplate.exchange(requestUrl, HttpMethod.POST, requestEntity,
+				new ParameterizedTypeReference<List<ATM>>() {
+				});
+		long endTime = System.currentTimeMillis();
+		long requestTime = endTime - startTime;
+		System.out.println(jsonFileName + " request time: " + requestTime);
+
+		// Assert
+		assertEquals(expectedResult, response.getBody());
+	}
 
 	private List<ATM> readOutput(String jsonFileName) throws IOException, StreamReadException, DatabindException {
 		String testFilePath = TESTING_FILES_RESOURCE_DIRECTORY_OUTPUT + jsonFileName;
 		testFilePath = testFilePath.replace("_request", "_response");
 		ClassPathResource expectedResource = new ClassPathResource(testFilePath);
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<ATM> expectedResult = objectMapper.readValue(expectedResource.getInputStream(), new TypeReference<List<ATM>>() {});
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<ATM> expectedResult = objectMapper.readValue(expectedResource.getInputStream(),
+				new TypeReference<List<ATM>>() {
+				});
 		return expectedResult;
 	}
 
@@ -101,13 +101,12 @@ public class AtmsApiTest {
 //        List<Task> tasks = objectMapper.readValue(inputResource.getInputStream(), new TypeReference<List<Task>>(){});
 //		return tasks;
 //	}
-	
+
 	static List<String> jsonFiles() throws IOException, URISyntaxException {
 		URL resource = AtmsApiTest.class.getClassLoader().getResource(TESTING_FILES_RESOURCE_DIRECTORY_INPUT);
 		Path inputDirectoryPath = Paths.get(resource.toURI());
 		List<String> fileNames = Files.list(inputDirectoryPath)
-				.filter(path -> Files.isRegularFile(path) 
-						&& path.toString().toLowerCase().endsWith(".json"))
+				.filter(path -> Files.isRegularFile(path) && path.toString().toLowerCase().endsWith(".json"))
 				.map(path -> path.getFileName().toString()).collect(Collectors.toList());
 		return fileNames;
 	}

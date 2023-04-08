@@ -20,14 +20,15 @@ import jakarta.validation.Valid;
 @Controller
 @RequestMapping("${openapi.aTMsServiceTeamTask.base-path:}")
 public class AtmsApiController implements AtmsApi {
-	
+
 	@Autowired
-    private AtmService atmService;
+	private AtmService atmService;
 
 	@Override
-	public ResponseEntity<List<ATM>> calculate(@Parameter(name = "Task", description = "", required = true) @Valid @RequestBody List<Task> taskList) {
-	    List<ATM> atmList = atmService.calculateSortedATMList(taskList);
-	    return ResponseEntity.ok(atmList);
+	public ResponseEntity<List<ATM>> calculate(
+			@Parameter(name = "Task", description = "", required = true) @Valid @RequestBody List<Task> taskList) {
+		List<ATM> atmList = atmService.calculateSortedATMList(taskList);
+		return ResponseEntity.ok(atmList);
 	}
 
 }

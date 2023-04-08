@@ -33,34 +33,21 @@ import jakarta.validation.Valid;
 @Tag(name = "onlinegame", description = "the onlinegame API")
 public interface OnlinegameApi {
 
+	/**
+	 * POST /onlinegame/calculate Calculate order
+	 *
+	 * @param players (required)
+	 * @return Successful operation (status code 200)
+	 */
+	@Operation(operationId = "calculate", description = "Calculate order", responses = {
+			@ApiResponse(responseCode = "200", description = "Successful operation", content = {
+					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Clan.class))) }) })
 
-    /**
-     * POST /onlinegame/calculate
-     * Calculate order
-     *
-     * @param players  (required)
-     * @return Successful operation (status code 200)
-     */
-    @Operation(
-        operationId = "calculate",
-        description = "Calculate order",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Successful operation", content = {
-                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Clan.class)))
-            })
-        }
-    )
-    
-    @RequestMapping(
-        method = RequestMethod.POST,
-        value = "/onlinegame/calculate",
-        produces = { "application/json" },
-        consumes = { "application/json" }
-    )
-    default ResponseEntity<List<List<Clan>>> calculate(
-        @Parameter(name = "Players", description = "", required = true) @Valid @RequestBody Players players
-    ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-    }
+	@RequestMapping(method = RequestMethod.POST, value = "/onlinegame/calculate", produces = {
+			"application/json" }, consumes = { "application/json" })
+	default ResponseEntity<List<List<Clan>>> calculate(
+			@Parameter(name = "Players", description = "", required = true) @Valid @RequestBody Players players) {
+		return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+	}
 
 }

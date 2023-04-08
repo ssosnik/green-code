@@ -9,22 +9,18 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
 
 import com.fasterxml.jackson.databind.Module;
 
-@SpringBootApplication(
-    nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
-)
-@ComponentScan(
-    basePackages = {"com.ssosnik.greencode", "com.ssosnik.greencode.api" , "com.ssosnik.greencode.configuration"},
-    nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
-)
+@SpringBootApplication(nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class)
+@ComponentScan(basePackages = { "com.ssosnik.greencode", "com.ssosnik.greencode.api",
+		"com.ssosnik.greencode.configuration" }, nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class)
 public class GreenCodeApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(GreenCodeApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(GreenCodeApplication.class, args);
+	}
 
-    @Bean(name = "com.ssosnik.greencode.OpenApiGeneratorApplication.jsonNullableModule")
-    public Module jsonNullableModule() {
-        return new JsonNullableModule();
-    }
+	@Bean(name = "com.ssosnik.greencode.OpenApiGeneratorApplication.jsonNullableModule")
+	public Module jsonNullableModule() {
+		return new JsonNullableModule();
+	}
 
 }

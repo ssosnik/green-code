@@ -28,8 +28,8 @@ public class OnlinegameApiController implements OnlinegameApi {
 	@Override
 	public ResponseEntity<List<List<Clan>>> calculate(
 			@Parameter(name = "Players", description = "", required = true) @Valid @RequestBody Players players) {
-	    List<List<Clan>> clanList = onlineGameService.calculateClanList(players);
-	    return ResponseEntity.ok(clanList);
+		List<List<Clan>> clanList = onlineGameService.calculateClanList(players);
+		return ResponseEntity.ok(clanList);
 	}
 
 }

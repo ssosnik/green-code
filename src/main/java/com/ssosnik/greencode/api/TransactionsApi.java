@@ -34,33 +34,21 @@ import jakarta.validation.constraints.Size;
 @Tag(name = "transactions", description = "the transactions API")
 public interface TransactionsApi {
 
-    /**
-     * POST /transactions/report
-     * Execute report
-     *
-     * @param transaction  (required)
-     * @return Successful operation (status code 200)
-     */
-    @Operation(
-        operationId = "report",
-        description = "Execute report",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Successful operation", content = {
-                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Account.class)))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.POST,
-        value = "/transactions/report",
-        produces = { "application/json" },
-        consumes = { "application/json" }
-    )
-    default ResponseEntity<List<Account>> report(
-        @Parameter(name = "Transaction", description = "", required = true) @Valid@Size(max = 100000)  @RequestBody List<Transaction> transaction
-    ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+	/**
+	 * POST /transactions/report Execute report
+	 *
+	 * @param transaction (required)
+	 * @return Successful operation (status code 200)
+	 */
+	@Operation(operationId = "report", description = "Execute report", responses = {
+			@ApiResponse(responseCode = "200", description = "Successful operation", content = {
+					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Account.class))) }) })
+	@RequestMapping(method = RequestMethod.POST, value = "/transactions/report", produces = {
+			"application/json" }, consumes = { "application/json" })
+	default ResponseEntity<List<Account>> report(
+			@Parameter(name = "Transaction", description = "", required = true) @Valid @Size(max = 100000) @RequestBody List<Transaction> transaction) {
+		return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
-    }
+	}
 
 }

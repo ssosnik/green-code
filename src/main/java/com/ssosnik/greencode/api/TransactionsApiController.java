@@ -26,10 +26,8 @@ public class TransactionsApiController implements TransactionsApi {
 
 	@Override
 	public ResponseEntity<List<Account>> report(@Valid @Size(max = 100000) List<Transaction> transaction) {
-	    List<Account> accountList = transactionService.calculateAccountList(transaction);
-	    return ResponseEntity.ok(accountList);
+		List<Account> accountList = transactionService.calculateAccountList(transaction);
+		return ResponseEntity.ok(accountList);
 	}
-	
-	
 
 }

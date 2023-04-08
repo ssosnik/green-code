@@ -21,8 +21,7 @@ public class ATM {
 	private Integer region;
 
 	private Integer atmId;
-	
-	
+
 	public ATM() {
 		this.region = null;
 		this.atmId = null;
