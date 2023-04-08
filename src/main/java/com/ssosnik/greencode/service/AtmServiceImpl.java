@@ -1,4 +1,4 @@
-package com.ssosnik.greencode.api;
+package com.ssosnik.greencode.service;
 
 import java.util.ArrayList;
 import java.util.Collections;

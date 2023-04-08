@@ -9,10 +9,10 @@ import java.util.Random;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.ssosnik.greencode.api.AtmService;
-import com.ssosnik.greencode.api.AtmServiceImpl;
 import com.ssosnik.greencode.model.ATM;
 import com.ssosnik.greencode.model.Task;
+import com.ssosnik.greencode.service.AtmService;
+import com.ssosnik.greencode.service.AtmServiceImpl;
 
 public class JSONFilesGenerator {
 	private static final Random rand = new Random();

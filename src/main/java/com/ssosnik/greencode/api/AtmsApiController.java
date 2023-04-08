@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ssosnik.greencode.model.ATM;
 import com.ssosnik.greencode.model.Task;
+import com.ssosnik.greencode.service.AtmService;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.annotation.Generated;

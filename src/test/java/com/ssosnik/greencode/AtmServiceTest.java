@@ -23,10 +23,10 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssosnik.greencode.api.AtmService;
-import com.ssosnik.greencode.api.AtmServiceImpl.CalculateMethod;
 import com.ssosnik.greencode.model.ATM;
 import com.ssosnik.greencode.model.Task;
+import com.ssosnik.greencode.service.AtmService;
+import com.ssosnik.greencode.service.AtmServiceImpl.CalculateMethod;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
