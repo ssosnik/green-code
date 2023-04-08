@@ -6,18 +6,15 @@
 package com.ssosnik.greencode.api;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.annotation.Generated;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.NativeWebRequest;
 
 import com.ssosnik.greencode.model.Account;
 import com.ssosnik.greencode.model.Transaction;
@@ -36,10 +33,6 @@ import jakarta.validation.constraints.Size;
 @Validated
 @Tag(name = "transactions", description = "the transactions API")
 public interface TransactionsApi {
-
-    default Optional<NativeWebRequest> getRequest() {
-        return Optional.empty();
-    }
 
     /**
      * POST /transactions/report
@@ -66,15 +59,6 @@ public interface TransactionsApi {
     default ResponseEntity<List<Account>> report(
         @Parameter(name = "Transaction", description = "", required = true) @Valid@Size(max = 100000)  @RequestBody List<Transaction> transaction
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "[ { \"debitCount\" : 2, \"balance\" : 0.8008282, \"creditCount\" : 2, \"account\" : \"3.2309111922661937E+25\" }, { \"debitCount\" : 2, \"balance\" : 0.8008282, \"creditCount\" : 2, \"account\" : \"3.2309111922661937E+25\" } ]";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

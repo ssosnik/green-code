@@ -6,18 +6,15 @@
 package com.ssosnik.greencode.api;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.annotation.Generated;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.NativeWebRequest;
 
 import com.ssosnik.greencode.model.Clan;
 import com.ssosnik.greencode.model.Players;
@@ -36,9 +33,6 @@ import jakarta.validation.Valid;
 @Tag(name = "onlinegame", description = "the onlinegame API")
 public interface OnlinegameApi {
 
-    default Optional<NativeWebRequest> getRequest() {
-        return Optional.empty();
-    }
 
     /**
      * POST /onlinegame/calculate
@@ -56,6 +50,7 @@ public interface OnlinegameApi {
             })
         }
     )
+    
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/onlinegame/calculate",
@@ -65,17 +60,7 @@ public interface OnlinegameApi {
     default ResponseEntity<List<List<Clan>>> calculate(
         @Parameter(name = "Players", description = "", required = true) @Valid @RequestBody Players players
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "[ null, null ]";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
 }
