@@ -45,7 +45,7 @@ public class OnlineGameServiceTest {
 	public void testCalculate(String jsonFileName) throws IOException {
 		// Arrange
 		long startTime = System.currentTimeMillis();
-		Players clans = readInput(jsonFileName);
+		Players players = readInput(jsonFileName);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime1 = endTime - startTime;
 		List<List<Clan>> expectedResult = readOutput(jsonFileName);
@@ -54,7 +54,7 @@ public class OnlineGameServiceTest {
 		startTime = System.currentTimeMillis();
 
 		// Act
-		List<List<Clan>> actualResult = onlineGameService.calculateClanList(clans);
+		List<List<Clan>> actualResult = onlineGameService.calculateClanList(players);
 
 		// Record the end time
 		endTime = System.currentTimeMillis();
