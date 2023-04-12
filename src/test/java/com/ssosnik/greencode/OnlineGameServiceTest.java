@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssosnik.greencode.model.Clan;
 import com.ssosnik.greencode.model.Players;
 import com.ssosnik.greencode.service.OnlineGameService;
+import com.ssosnik.greencode.service.OnlineGameServiceImpl.CalculateMethod;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -67,17 +68,17 @@ public class OnlineGameServiceTest {
 		assertEquals(expectedResult, actualResult);
 	}
 
-//	@ParameterizedTest
-//	@MethodSource("jsonFiles")
-//	public void testCalculateSimple(String jsonFileName) throws IOException {
-//		testCalculateMethod(jsonFileName, CalculateMethod.Simple);
-//	}
-//
-//	@ParameterizedTest
-//	@MethodSource("jsonFiles")
-//	public void testCalculateSerial(String jsonFileName) throws IOException {
-//		testCalculateMethod(jsonFileName, CalculateMethod.Serial);
-//	}
+	@ParameterizedTest
+	@MethodSource("jsonFiles")
+	public void testCalculateSimple(String jsonFileName) throws IOException {
+		testCalculateMethod(jsonFileName, CalculateMethod.Simple);
+	}
+
+	@ParameterizedTest
+	@MethodSource("jsonFiles")
+	public void testCalculateSerial(String jsonFileName) throws IOException {
+		testCalculateMethod(jsonFileName, CalculateMethod.Optimized);
+	}
 //
 //	@ParameterizedTest
 //	@MethodSource("jsonFiles")
@@ -85,32 +86,32 @@ public class OnlineGameServiceTest {
 //		testCalculateMethod(jsonFileName, CalculateMethod.Parallel);
 //	}
 //
-//	private void testCalculateMethod(String jsonFileName, CalculateMethod calculateMethod)
-//			throws IOException, StreamReadException, DatabindException {
-//		// Arrange
-//		long startTime = System.currentTimeMillis();
-//		List<Task> tasks = readInput(jsonFileName);
-//		long endTime = System.currentTimeMillis();
-//		long elapsedTime1 = endTime - startTime;
-//		List<ATM> expectedResult = readOutput(jsonFileName);
-//
-//		// Record the start time
-//		startTime = System.currentTimeMillis();
-//
-//		// Act
-//		List<ATM> actualResult = atmService.calculateSortedATMList(tasks, calculateMethod);
-//
-//		// Record the end time
-//		endTime = System.currentTimeMillis();
-//
-//		// Calculate and print the elapsed time
-//		long elapsedTime2 = endTime - startTime;
-//		System.out.println(
-//				calculateMethod.toString() + ", " + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2);
-//
-//		// Assert
-//		assertEquals(expectedResult, actualResult);
-//	}
+	private void testCalculateMethod(String jsonFileName, CalculateMethod calculateMethod)
+			throws IOException, StreamReadException, DatabindException {
+		// Arrange
+		long startTime = System.currentTimeMillis();
+		Players players = readInput(jsonFileName);
+		long endTime = System.currentTimeMillis();
+		long elapsedTime1 = endTime - startTime;
+		List<List<Clan>> expectedResult = readOutput(jsonFileName);
+
+		// Record the start time
+		startTime = System.currentTimeMillis();
+
+		// Act
+		// Act
+		List<List<Clan>> actualResult = onlineGameService.calculateClanList(players, calculateMethod);
+
+		// Record the end time
+		endTime = System.currentTimeMillis();
+
+		// Calculate and print the elapsed time
+		long elapsedTime2 = endTime - startTime;
+		System.out.println("calculate: " + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2);
+
+		// Assert
+		assertEquals(expectedResult, actualResult);
+	}
 
 	private List<List<Clan>> readOutput(String jsonFileName) throws IOException, StreamReadException, DatabindException {
 		String testFilePath = TESTING_FILES_RESOURCE_DIRECTORY_OUTPUT + jsonFileName;
