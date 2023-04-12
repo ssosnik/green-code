@@ -140,18 +140,20 @@ public class OnlineGameServiceImpl implements OnlineGameService {
 				} else if (currentFreePlacesCount <= clanSize_M) {	
 					Integer stopIndex = clanList_S.size() > 0 ? clanList_S.getFirst() : clans.size(); 
 				    j = findGroupIndex(clans, clanList_M, currentFreePlacesCount, stopIndex);
-				    if (j==stopIndex && stopIndex<clans.size()) {
+				    if (j==stopIndex && j<clans.size()) {
 				    	// clan index was found in S-list, so remove it
 				    	clanList_S.removeFirst();
 				    }
 				    	
 				} else {
 					j = findGroupIndex(clans, usedClans, j, currentFreePlacesCount);
-					if (clans.get(j).getNumberOfPlayers() <= clanSize_S) {
-						clanList_S.removeFirst();
-					} else if (clans.get(j).getNumberOfPlayers() <= clanSize_M) {	
-					   	clanList_M.removeFirst();
-					}
+				    if (j<clans.size()) {	
+						if (clans.get(j).getNumberOfPlayers() <= clanSize_S) {
+							clanList_S.removeFirst();
+						} else if (clans.get(j).getNumberOfPlayers() <= clanSize_M) {	
+						   	clanList_M.removeFirst();
+						}
+				    }
 				}
 
 				if (j<clans.size()) {

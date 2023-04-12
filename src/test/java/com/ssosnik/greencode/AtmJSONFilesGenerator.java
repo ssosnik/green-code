@@ -14,7 +14,7 @@ import com.ssosnik.greencode.model.Task;
 import com.ssosnik.greencode.service.AtmService;
 import com.ssosnik.greencode.service.AtmServiceImpl;
 
-public class JSONFilesGenerator {
+public class AtmJSONFilesGenerator {
 	private static final Random rand = new Random();
 
 	private static final int MAX_REGION = 9999;
@@ -50,7 +50,7 @@ public class JSONFilesGenerator {
 	}
 
 	public static void main(String[] args) throws IOException {
-		JSONFilesGenerator generator = new JSONFilesGenerator();
+		AtmJSONFilesGenerator generator = new AtmJSONFilesGenerator();
 
 		for (int i = 2; i <= 6; i++) {
 			BigInteger a = new BigInteger("10");

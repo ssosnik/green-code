@@ -107,7 +107,7 @@ public class OnlineGameServiceTest {
 
 		// Calculate and print the elapsed time
 		long elapsedTime2 = endTime - startTime;
-		System.out.println("calculate: " + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2);
+		System.out.println(calculateMethod.toString() + ", " + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2);
 
 		// Assert
 		assertEquals(expectedResult, actualResult);
