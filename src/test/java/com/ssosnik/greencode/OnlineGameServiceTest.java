@@ -76,7 +76,7 @@ public class OnlineGameServiceTest {
 
 	@ParameterizedTest
 	@MethodSource("jsonFiles")
-	public void testCalculateSerial(String jsonFileName) throws IOException {
+	public void testCalculateOptimized(String jsonFileName) throws IOException {
 		testCalculateMethod(jsonFileName, CalculateMethod.Optimized);
 	}
 //

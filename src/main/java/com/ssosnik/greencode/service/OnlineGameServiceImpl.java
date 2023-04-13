@@ -25,7 +25,7 @@ public class OnlineGameServiceImpl implements OnlineGameService {
 
 	@Override
 	public List<List<Clan>> calculateClanList(Players players) {
-		List<List<Clan>> result = players.getClans().size() < 500 ? 
+		List<List<Clan>> result = players.getClans().size() <= 300 ? 
 				simpleSolution(players) :
 				optimizedSolution(players);
 
@@ -83,14 +83,20 @@ public class OnlineGameServiceImpl implements OnlineGameService {
 		List<List<Clan>> result = new ArrayList<>();
 
 		Integer groupSize = players.getGroupCount();
+
+		Integer clanSize_L = groupSize <= 20 ? 4 : groupSize/5; 
+		Integer clanSize_M = groupSize <= 20 ? 2 : groupSize/10; 
+		Integer clanSize_S = groupSize <= 20 ? 1 : groupSize/20;
+
 		
 //		Integer clanSize_L = groupSize < 16 ? 3 : (int) Math.sqrt(groupSize); 
 //		Integer clanSize_M = groupSize < 16 ? 2 : (int) Math.sqrt(clanSize_L); 
 //		Integer clanSize_S = (int) Math.sqrt(clanSize_M);
 
-		Integer clanSize_M = groupSize < 16 ? 3 : (int) Math.sqrt(groupSize); 
-		Integer clanSize_S = groupSize < 16 ? 2 : (int) Math.sqrt(clanSize_M); 
+//		Integer clanSize_M = groupSize < 16 ? 3 : (int) Math.sqrt(groupSize); 
+//		Integer clanSize_S = groupSize < 16 ? 2 : (int) Math.sqrt(clanSize_M); 
 
+//		System.out.println(String.format("Sizes (group,L,M,S): %d %d %d %d", groupSize, clanSize_L, clanSize_M, clanSize_S));
 		
 		List<Clan> clans = players.getClans();
 
@@ -98,8 +104,9 @@ public class OnlineGameServiceImpl implements OnlineGameService {
 
 		LinkedList<Integer> clanList_S = new LinkedList<>();
 		LinkedList<Integer> clanList_M = new LinkedList<>();
-//		LinkedList<Integer> clanList_L = new LinkedList<>();
+		LinkedList<Integer> clanList_L = new LinkedList<>();
 		Set<Integer> usedClans = new HashSet<>();
+		
 		
 		for (Integer i = 0; i < clans.size(); i++) {
 			Clan clan = clans.get(i);
@@ -107,8 +114,8 @@ public class OnlineGameServiceImpl implements OnlineGameService {
 				clanList_S.add(i);				
 			} else if (clan.getNumberOfPlayers() <= clanSize_M) {
 				clanList_M.add(i);				
-//			} else if (clan.getNumberOfPlayers() <= clanSize_L) {
-//				clanList_L.add(i);								
+			} else if (clan.getNumberOfPlayers() <= clanSize_L) {
+				clanList_L.add(i);								
 			}
 		}
 
@@ -127,7 +134,10 @@ public class OnlineGameServiceImpl implements OnlineGameService {
 				clanList_S.removeFirst();
 			} else if (currentPlayerCount <= clanSize_M) {	
 			   	clanList_M.removeFirst();
+			} else if (currentPlayerCount <= clanSize_L) {	
+			   	clanList_L.removeFirst();
 			}
+
 			
 			Integer j = i + 1; 
 			while (j < clans.size()) {
@@ -142,11 +152,23 @@ public class OnlineGameServiceImpl implements OnlineGameService {
 				} else if (currentFreePlacesCount <= clanSize_M) {	
 					Integer stopIndex = clanList_S.size() > 0 ? clanList_S.getFirst() : clans.size(); 
 				    j = findGroupIndex(clans, clanList_M, currentFreePlacesCount, stopIndex);
-				    if (j==stopIndex && j<clans.size()) {
+				    if (j.equals(stopIndex) && j<clans.size()) {
 				    	// clan index was found in S-list, so remove it
 				    	clanList_S.removeFirst();
 				    }
-				    	
+				} else if (currentFreePlacesCount <= clanSize_L) {	
+					Integer stopIndexS = clanList_S.size() > 0 ? clanList_S.getFirst() : clans.size(); 
+					Integer stopIndexM = clanList_M.size() > 0 ? clanList_M.getFirst() : clans.size();
+					Integer stopIndex = Math.min(stopIndexS, stopIndexM);
+							
+				    j = findGroupIndex(clans, clanList_L, currentFreePlacesCount, stopIndex);
+				    if (j.equals(stopIndexS) && j<clans.size()) {
+				    	// clan index was found in S-list, so remove it
+				    	clanList_S.removeFirst();
+				    } else if (j.equals(stopIndexM) && j<clans.size()) {
+				    	// clan index was found in S-list, so remove it
+				    	clanList_M.removeFirst();
+				    }				    					    	
 				} else {
 					j = findGroupIndex(clans, usedClans, j, currentFreePlacesCount);
 				    if (j<clans.size()) {	
@@ -154,6 +176,8 @@ public class OnlineGameServiceImpl implements OnlineGameService {
 							clanList_S.removeFirst();
 						} else if (clans.get(j).getNumberOfPlayers() <= clanSize_M) {	
 						   	clanList_M.removeFirst();
+						} else if (clans.get(j).getNumberOfPlayers() <= clanSize_L) {	
+						   	clanList_L.removeFirst();
 						}
 				    }
 				}
