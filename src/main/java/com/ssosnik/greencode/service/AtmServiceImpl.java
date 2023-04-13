@@ -23,7 +23,7 @@ public class AtmServiceImpl implements AtmService {
 			.thenComparing(Task::getRequestPriority);
 
 	public enum CalculateMethod {
-		Simple, Serial, Parallel,
+		Simple, Serial, Parallel;
 	}
 
 	@Override

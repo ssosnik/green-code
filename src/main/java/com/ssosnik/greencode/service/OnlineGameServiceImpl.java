@@ -34,10 +34,10 @@ public class OnlineGameServiceImpl implements OnlineGameService {
 	
 	@Override
 	public List<List<Clan>> calculateClanList(Players players, CalculateMethod method) {
-		List<List<Clan>>  combinedAtmList = method == CalculateMethod.Simple ? simpleSolution(players)
+		List<List<Clan>>  clanList = method == CalculateMethod.Simple ? simpleSolution(players)
 				: optimizedSolution(players);
 
-		return combinedAtmList;
+		return clanList;
 	}
 
 	private List<List<Clan>> simpleSolution(Players players) {

@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssosnik.greencode.model.Account;
 import com.ssosnik.greencode.model.Transaction;
 import com.ssosnik.greencode.service.TransactionService;
+import com.ssosnik.greencode.service.TransactionServiceImpl.CalculateMethod;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -40,8 +41,8 @@ public class TransactionServiceTest {
 
 	private final ObjectMapper objectMapper = new ObjectMapper();
 
-	@ParameterizedTest
-	@MethodSource("jsonFiles")
+//	@ParameterizedTest
+//	@MethodSource("jsonFiles")
 	public void testCalculate(String jsonFileName) throws IOException {
 		// Arrange
 		long startTime = System.currentTimeMillis();
@@ -67,12 +68,12 @@ public class TransactionServiceTest {
 		assertEquals(expectedResult, actualResult);
 	}
 
-//	@ParameterizedTest
-//	@MethodSource("jsonFiles")
-//	public void testCalculateSimple(String jsonFileName) throws IOException {
-//		testCalculateMethod(jsonFileName, CalculateMethod.Simple);
-//	}
-//
+	@ParameterizedTest
+	@MethodSource("jsonFiles")
+	public void testCalculateSimple(String jsonFileName) throws IOException {
+		testCalculateMethod(jsonFileName, CalculateMethod.Simple);
+	}
+
 //	@ParameterizedTest
 //	@MethodSource("jsonFiles")
 //	public void testCalculateSerial(String jsonFileName) throws IOException {
@@ -85,32 +86,32 @@ public class TransactionServiceTest {
 //		testCalculateMethod(jsonFileName, CalculateMethod.Parallel);
 //	}
 //
-//	private void testCalculateMethod(String jsonFileName, CalculateMethod calculateMethod)
-//			throws IOException, StreamReadException, DatabindException {
-//		// Arrange
-//		long startTime = System.currentTimeMillis();
-//		List<Task> tasks = readInput(jsonFileName);
-//		long endTime = System.currentTimeMillis();
-//		long elapsedTime1 = endTime - startTime;
-//		List<ATM> expectedResult = readOutput(jsonFileName);
-//
-//		// Record the start time
-//		startTime = System.currentTimeMillis();
-//
-//		// Act
-//		List<ATM> actualResult = atmService.calculateSortedATMList(tasks, calculateMethod);
-//
-//		// Record the end time
-//		endTime = System.currentTimeMillis();
-//
-//		// Calculate and print the elapsed time
-//		long elapsedTime2 = endTime - startTime;
-//		System.out.println(
-//				calculateMethod.toString() + ", " + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2);
-//
-//		// Assert
-//		assertEquals(expectedResult, actualResult);
-//	}
+	private void testCalculateMethod(String jsonFileName, CalculateMethod calculateMethod)
+			throws IOException, StreamReadException, DatabindException {
+		// Arrange
+		long startTime = System.currentTimeMillis();
+		List<Transaction> transactions = readInput(jsonFileName);
+		long endTime = System.currentTimeMillis();
+		long elapsedTime1 = endTime - startTime;
+		List<Account> expectedResult = readOutput(jsonFileName);
+
+		// Record the start time
+		startTime = System.currentTimeMillis();
+
+		// Act
+		List<Account> actualResult = transactionService.calculateAccountList(transactions, calculateMethod);
+
+		// Record the end time
+		endTime = System.currentTimeMillis();
+
+		// Calculate and print the elapsed time
+		long elapsedTime2 = endTime - startTime;
+		System.out.println(
+				calculateMethod.toString() + ", " + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2);
+
+		// Assert
+		assertEquals(expectedResult, actualResult);
+	}
 
 	private List<Account> readOutput(String jsonFileName) throws IOException, StreamReadException, DatabindException {
 		String testFilePath = TESTING_FILES_RESOURCE_DIRECTORY_OUTPUT + jsonFileName;
