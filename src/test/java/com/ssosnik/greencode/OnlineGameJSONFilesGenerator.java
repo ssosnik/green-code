@@ -2,7 +2,6 @@ package com.ssosnik.greencode;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Random;
 
@@ -53,11 +52,10 @@ public class OnlineGameJSONFilesGenerator {
 	public static void main(String[] args) throws IOException {
 		OnlineGameJSONFilesGenerator generator = new OnlineGameJSONFilesGenerator();
 
-		for (int i = 2; i <= 4; i++) {
-			BigInteger a = new BigInteger("10");
-			BigInteger size = a.pow(i).multiply(new BigInteger("2"));
+		for (int i = 1; i <= 20; i++) {
+			Integer size = i*100;
 			Players players = generator.createRandomClanList(size.intValue());
-			String filename = "players" + size.toString() + ".json";
+			String filename = String.format("players%05d.json", size);;
 			generator.saveToJsonFile(players, new File(ONLINEGAME_SERVICE_FOLDER_INPUT, filename));
 
 			OnlineGameService onlineGameService = new OnlineGameServiceImpl();

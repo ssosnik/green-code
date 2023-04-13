@@ -25,7 +25,9 @@ public class OnlineGameServiceImpl implements OnlineGameService {
 
 	@Override
 	public List<List<Clan>> calculateClanList(Players players) {
-		List<List<Clan>> result = simpleSolution(players);
+		List<List<Clan>> result = players.getClans().size() < 500 ? 
+				simpleSolution(players) :
+				optimizedSolution(players);
 
 		return result;
 	}

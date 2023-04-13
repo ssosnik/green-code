@@ -99,7 +99,6 @@ public class OnlineGameServiceTest {
 		startTime = System.currentTimeMillis();
 
 		// Act
-		// Act
 		List<List<Clan>> actualResult = onlineGameService.calculateClanList(players, calculateMethod);
 
 		// Record the end time
@@ -107,7 +106,8 @@ public class OnlineGameServiceTest {
 
 		// Calculate and print the elapsed time
 		long elapsedTime2 = endTime - startTime;
-		System.out.println(calculateMethod.toString() + ", " + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2);
+		System.out.println(calculateMethod.toString() + ", " + jsonFileName + ", " + jsonFileName.substring(7, 12) 
+				+" time: " + elapsedTime1 + ", " + elapsedTime2);
 
 		// Assert
 		assertEquals(expectedResult, actualResult);
