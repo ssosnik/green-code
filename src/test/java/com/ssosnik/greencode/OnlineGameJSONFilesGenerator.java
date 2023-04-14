@@ -36,7 +36,9 @@ public class OnlineGameJSONFilesGenerator {
 
 		for (int i = 0; i < clanCount; i++) {
 			Clan clan = new Clan();
-			clan.setNumberOfPlayers(rand.nextInt(1, groupSize/2));			
+//			clan.setNumberOfPlayers(rand.nextInt(1, groupSize/2));			
+//			clan.setNumberOfPlayers(rand.nextInt(groupSize/2, groupSize));			
+			clan.setNumberOfPlayers(rand.nextInt(1, groupSize));			
 			clan.setPoints(rand.nextInt(clan.getNumberOfPlayers(), MAX_SCORE)/clan.getNumberOfPlayers());
 			
 			players.addClansItem(clan);
@@ -53,9 +55,9 @@ public class OnlineGameJSONFilesGenerator {
 		OnlineGameJSONFilesGenerator generator = new OnlineGameJSONFilesGenerator();
 
 		for (int i = 1; i <= 20; i++) {
-			Integer size = i*100;
+			Integer size = i*1000;
 			Players players = generator.createRandomClanList(size.intValue());
-			String filename = String.format("players%05d.json", size);;
+			String filename = String.format("players%05d.json", size);
 			generator.saveToJsonFile(players, new File(ONLINEGAME_SERVICE_FOLDER_INPUT, filename));
 
 			OnlineGameService onlineGameService = new OnlineGameServiceImpl();

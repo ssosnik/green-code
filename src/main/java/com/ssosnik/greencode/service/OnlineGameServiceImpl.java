@@ -84,18 +84,14 @@ public class OnlineGameServiceImpl implements OnlineGameService {
 
 		Integer groupSize = players.getGroupCount();
 
-		Integer clanSize_L = groupSize <= 20 ? 4 : groupSize/5; 
-		Integer clanSize_M = groupSize <= 20 ? 2 : groupSize/10; 
-		Integer clanSize_S = groupSize <= 20 ? 1 : groupSize/20;
+//		Integer clanSize_L = groupSize <= 20 ? 4 : groupSize/5; 
+//		Integer clanSize_M = groupSize <= 20 ? 2 : groupSize/10; 
+//		Integer clanSize_S = groupSize <= 20 ? 1 : groupSize/20;
 
+		Integer clanSize_L = groupSize <= 8 ? 4 : groupSize/2; 
+		Integer clanSize_M = groupSize <= 8 ? 2 : groupSize/4; 
+		Integer clanSize_S = groupSize <= 8 ? 1 : groupSize/8;
 		
-//		Integer clanSize_L = groupSize < 16 ? 3 : (int) Math.sqrt(groupSize); 
-//		Integer clanSize_M = groupSize < 16 ? 2 : (int) Math.sqrt(clanSize_L); 
-//		Integer clanSize_S = (int) Math.sqrt(clanSize_M);
-
-//		Integer clanSize_M = groupSize < 16 ? 3 : (int) Math.sqrt(groupSize); 
-//		Integer clanSize_S = groupSize < 16 ? 2 : (int) Math.sqrt(clanSize_M); 
-
 //		System.out.println(String.format("Sizes (group,L,M,S): %d %d %d %d", groupSize, clanSize_L, clanSize_M, clanSize_S));
 		
 		List<Clan> clans = players.getClans();
