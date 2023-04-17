@@ -8,8 +8,8 @@ import java.util.TreeMap;
 
 import org.springframework.stereotype.Service;
 
-import com.ssosnik.greencode.model.ATM;
 import com.ssosnik.greencode.model.Account;
+import com.ssosnik.greencode.model.AccountInterface;
 import com.ssosnik.greencode.model.Transaction;
 
 @Service
@@ -21,47 +21,47 @@ public class TransactionServiceImpl implements TransactionService {
 
 
 	@Override
-	public List<Account> calculateAccountList(List<Transaction> transaction) {
+	public List<AccountInterface> calculateAccountList(List<Transaction> transaction) {
 		// TODO Auto-generated method stub
 		return new ArrayList<>();
 	}
 
 
 	@Override
-	public List<Account> calculateAccountList(List<Transaction> transactions,
+	public List<AccountInterface> calculateAccountList(List<Transaction> transactions,
 			CalculateMethod method) {
-		List<Account>  combinedAtmList = method == CalculateMethod.Simple ? simpleSolution(transactions)
+		List<AccountInterface>  combinedAtmList = method == CalculateMethod.Simple ? simpleSolution(transactions)
 				: parallelSolution(transactions);
 
 		return combinedAtmList;	
 	}
 
 
-	private List<Account> parallelSolution(List<Transaction> transactions) {
+	private List<AccountInterface> parallelSolution(List<Transaction> transactions) {
 		return null;
 	}
 
 
-	private List<Account> simpleSolution(List<Transaction> transactions) {		
-		HashMap<String, Account> accountMap = new HashMap<>();				
+	private List<AccountInterface> simpleSolution(List<Transaction> transactions) {		
+		HashMap<String, AccountInterface> accountMap = new HashMap<>();				
 		for (Transaction t : transactions) {
-			Account creditAccount = accountMap.computeIfAbsent(t.getCreditAccount(), k -> createNewAccount(k));
-			creditAccount.creditCount(creditAccount.getCreditCount()+1);
-			creditAccount.balance(creditAccount.getBalance()+t.getAmount());
+			AccountInterface creditAccount = accountMap.computeIfAbsent(t.getCreditAccount(), k -> createNewAccount(k));
+			creditAccount.creditCountIncrement();
+			creditAccount.balanceIncrease(t.getAmount());
 			
-			Account debitAccount = accountMap.computeIfAbsent(t.getDebitAccount(), k -> createNewAccount(k));
-			debitAccount.debitCount(debitAccount.getDebitCount()+1);
-			debitAccount.balance(debitAccount.getBalance()-t.getAmount());			
+			AccountInterface debitAccount = accountMap.computeIfAbsent(t.getDebitAccount(), k -> createNewAccount(k));
+			debitAccount.debitCountIncrement();
+			debitAccount.balanceDecrease(t.getAmount());			
 		}
 		
-		Map<String, Account> sortedMap = new TreeMap<>(accountMap);
+		Map<String, AccountInterface> sortedMap = new TreeMap<>(accountMap);
 		
-		return new ArrayList<Account>(sortedMap.values());
+		return new ArrayList<AccountInterface>(sortedMap.values());
 	}
 
 
-	private Account createNewAccount(String accountNumber) {
-		return new Account().account(accountNumber).creditCount(0).debitCount(0).balance(Float.valueOf(0.0f));
+	private AccountInterface createNewAccount(String accountNumber) {
+		return new Account(accountNumber);
 	}
 
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ssosnik.greencode.model.Account;
+import com.ssosnik.greencode.model.AccountInterface;
 import com.ssosnik.greencode.model.Transaction;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,7 +46,7 @@ public interface TransactionsApi {
 					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Account.class))) }) })
 	@RequestMapping(method = RequestMethod.POST, value = "/transactions/report", produces = {
 			"application/json" }, consumes = { "application/json" })
-	default ResponseEntity<List<Account>> report(
+	default ResponseEntity<List<AccountInterface>> report(
 			@Parameter(name = "Transaction", description = "", required = true) @Valid @Size(max = 100000) @RequestBody List<Transaction> transaction) {
 		return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

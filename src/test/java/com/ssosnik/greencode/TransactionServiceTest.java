@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssosnik.greencode.model.Account;
+import com.ssosnik.greencode.model.AccountInterface;
 import com.ssosnik.greencode.model.Transaction;
 import com.ssosnik.greencode.service.TransactionService;
 import com.ssosnik.greencode.service.TransactionServiceImpl.CalculateMethod;
@@ -55,7 +56,7 @@ public class TransactionServiceTest {
 		startTime = System.currentTimeMillis();
 
 		// Act
-		List<Account> actualResult = transactionService.calculateAccountList(transactions);
+		List<AccountInterface> actualResult = transactionService.calculateAccountList(transactions);
 
 		// Record the end time
 		endTime = System.currentTimeMillis();
@@ -99,7 +100,7 @@ public class TransactionServiceTest {
 		startTime = System.currentTimeMillis();
 
 		// Act
-		List<Account> actualResult = transactionService.calculateAccountList(transactions, calculateMethod);
+		List<AccountInterface> actualResult = transactionService.calculateAccountList(transactions, calculateMethod);
 
 		// Record the end time
 		endTime = System.currentTimeMillis();

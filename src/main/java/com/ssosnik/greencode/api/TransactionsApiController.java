@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ssosnik.greencode.model.Account;
+import com.ssosnik.greencode.model.AccountInterface;
 import com.ssosnik.greencode.model.Transaction;
 import com.ssosnik.greencode.service.TransactionService;
 
@@ -25,8 +25,8 @@ public class TransactionsApiController implements TransactionsApi {
 	private TransactionService transactionService;
 
 	@Override
-	public ResponseEntity<List<Account>> report(@Valid @Size(max = 100000) List<Transaction> transaction) {
-		List<Account> accountList = transactionService.calculateAccountList(transaction);
+	public ResponseEntity<List<AccountInterface>> report(@Valid @Size(max = 100000) List<Transaction> transaction) {
+		List<AccountInterface> accountList = transactionService.calculateAccountList(transaction);
 		return ResponseEntity.ok(accountList);
 	}
 
