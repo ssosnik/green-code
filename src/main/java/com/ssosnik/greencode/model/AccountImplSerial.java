@@ -5,11 +5,6 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
-
 /**
  * AccountImplSerial
  */

@@ -11,7 +11,14 @@ public class AccountImplParallel implements AccountInterface {
     private AtomicInteger debitCount = new AtomicInteger();
     private AtomicReference<BigDecimal> balance = new AtomicReference<>(BigDecimal.ZERO);
 
-    @Override
+    public AccountImplParallel() {
+	}
+
+    public AccountImplParallel(String accountNumber) {
+    	this.accountNumber = accountNumber;
+	}
+
+	@Override
     public String getAccount() {
         return accountNumber;
     }

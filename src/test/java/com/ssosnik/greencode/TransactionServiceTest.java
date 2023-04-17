@@ -72,21 +72,21 @@ public class TransactionServiceTest {
 	@ParameterizedTest
 	@MethodSource("jsonFiles")
 	public void testCalculateSimple(String jsonFileName) throws IOException {
-		testCalculateMethod(jsonFileName, CalculateMethod.Simple);
+		testCalculateMethod(jsonFileName, CalculateMethod.Serial);
 	}
 
-//	@ParameterizedTest
-//	@MethodSource("jsonFiles")
-//	public void testCalculateSerial(String jsonFileName) throws IOException {
-//		testCalculateMethod(jsonFileName, CalculateMethod.Serial);
-//	}
-//
-//	@ParameterizedTest
-//	@MethodSource("jsonFiles")
-//	public void testCalculateParallel(String jsonFileName) throws IOException {
-//		testCalculateMethod(jsonFileName, CalculateMethod.Parallel);
-//	}
-//
+	@ParameterizedTest
+	@MethodSource("jsonFiles")
+	public void testCalculateSerial(String jsonFileName) throws IOException {
+		testCalculateMethod(jsonFileName, CalculateMethod.Serial);
+	}
+
+	@ParameterizedTest
+	@MethodSource("jsonFiles")
+	public void testCalculateParallel(String jsonFileName) throws IOException {
+		testCalculateMethod(jsonFileName, CalculateMethod.Parallel);
+	}
+
 	private void testCalculateMethod(String jsonFileName, CalculateMethod calculateMethod)
 			throws IOException, StreamReadException, DatabindException {
 		// Arrange
