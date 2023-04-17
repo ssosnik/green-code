@@ -8,7 +8,7 @@ import java.util.TreeMap;
 
 import org.springframework.stereotype.Service;
 
-import com.ssosnik.greencode.model.Account;
+import com.ssosnik.greencode.model.AccountImplSerial;
 import com.ssosnik.greencode.model.AccountInterface;
 import com.ssosnik.greencode.model.Transaction;
 
@@ -61,7 +61,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 
 	private AccountInterface createNewAccount(String accountNumber) {
-		return new Account(accountNumber);
+		return new AccountImplSerial(accountNumber);
 	}
 
 }

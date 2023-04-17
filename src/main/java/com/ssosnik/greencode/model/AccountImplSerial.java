@@ -11,21 +11,21 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 
 /**
- * Account
+ * AccountImplSerial
  */
 
 @Generated(value = "com.ssosnik.greencode.codegen.languages.SpringCodegen", date = "2023-04-01T16:15:24.122895800+02:00[Europe/Warsaw]")
-public class Account implements AccountInterface {
+public class AccountImplSerial implements AccountInterface {
 
 	private String account;
 	private Integer debitCount = 0;
 	private Integer creditCount = 0;
 	private BigDecimal balance = BigDecimal.ZERO;
 
-	public Account() {
+	public AccountImplSerial() {
 	}
 
-	public Account(String accountNumber) {
+	public AccountImplSerial(String accountNumber) {
 		this.account = accountNumber;
 	}
 
@@ -35,9 +35,6 @@ public class Account implements AccountInterface {
 	 * @return account
 	 */
 	@Override
-	@Size(min = 26, max = 26)
-	@Schema(name = "account", example = "3.2309111922661937E+25", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-	@JsonProperty("account")
 	public String getAccount() {
 		return account;
 	}
@@ -49,8 +46,6 @@ public class Account implements AccountInterface {
 	 */
 
 	@Override
-	@Schema(name = "debitCount", example = "2", description = "Number of debit transactions", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-	@JsonProperty("debitCount")
 	public Integer getDebitCount() {
 		return debitCount;
 	}
@@ -62,8 +57,6 @@ public class Account implements AccountInterface {
 	 */
 
 	@Override
-	@Schema(name = "creditCount", example = "2", description = "Number of credit transactions", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-	@JsonProperty("creditCount")
 	public Integer getCreditCount() {
 		return creditCount;
 	}
@@ -75,8 +68,6 @@ public class Account implements AccountInterface {
 	 */
 
 	@Override
-	@Schema(name = "balance", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-	@JsonProperty("balance")
 	public BigDecimal getBalance() {
 		return balance;
 	}
@@ -90,7 +81,7 @@ public class Account implements AccountInterface {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		Account account = (Account) o;
+		AccountImplSerial account = (AccountImplSerial) o;
 		return Objects.equals(this.account, account.account) && Objects.equals(this.debitCount, account.debitCount)
 				&& Objects.equals(this.creditCount, account.creditCount)
 				&& Objects.equals(this.balance, account.balance);
@@ -104,7 +95,7 @@ public class Account implements AccountInterface {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("class Account {\n");
+		sb.append("class AccountImplSerial {\n");
 		sb.append("    account: ").append(toIndentedString(account)).append("\n");
 		sb.append("    debitCount: ").append(toIndentedString(debitCount)).append("\n");
 		sb.append("    creditCount: ").append(toIndentedString(creditCount)).append("\n");

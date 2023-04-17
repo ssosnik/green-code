@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.ssosnik.greencode.model.Account;
+import com.ssosnik.greencode.model.AccountImplSerial;
 import com.ssosnik.greencode.model.AccountInterface;
 import com.ssosnik.greencode.model.Transaction;
 
@@ -43,7 +43,7 @@ public interface TransactionsApi {
 	 */
 	@Operation(operationId = "report", description = "Execute report", responses = {
 			@ApiResponse(responseCode = "200", description = "Successful operation", content = {
-					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Account.class))) }) })
+					@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = AccountImplSerial.class))) }) })
 	@RequestMapping(method = RequestMethod.POST, value = "/transactions/report", produces = {
 			"application/json" }, consumes = { "application/json" })
 	default ResponseEntity<List<AccountInterface>> report(
