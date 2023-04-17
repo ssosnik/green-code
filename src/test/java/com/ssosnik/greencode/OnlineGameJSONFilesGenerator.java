@@ -21,7 +21,7 @@ public class OnlineGameJSONFilesGenerator {
 	private static final int MAX_SCORE = 100000;
 
 	private static final ObjectMapper objectMapper = new ObjectMapper().configure(SerializationFeature.INDENT_OUTPUT,
-			true);
+			false);
 
 	private static final File ONLINEGAME_SERVICE_FOLDER_INPUT = new File(
 			"src/test/resources/testing-files/onlinegame/request");
