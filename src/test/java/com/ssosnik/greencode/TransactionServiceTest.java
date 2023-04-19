@@ -23,7 +23,8 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssosnik.greencode.model.Account;
+import com.ssosnik.greencode.model.AccountImplSerial;
+import com.ssosnik.greencode.model.AccountInterface;
 import com.ssosnik.greencode.model.Transaction;
 import com.ssosnik.greencode.service.TransactionService;
 import com.ssosnik.greencode.service.TransactionServiceImpl.CalculateMethod;
@@ -49,13 +50,13 @@ public class TransactionServiceTest {
 		List<Transaction> transactions = readInput(jsonFileName);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime1 = endTime - startTime;
-		List<Account> expectedResult = readOutput(jsonFileName);
+		List<AccountImplSerial> expectedResult = readOutput(jsonFileName);
 
 		// Record the start time
 		startTime = System.currentTimeMillis();
 
 		// Act
-		List<Account> actualResult = transactionService.calculateAccountList(transactions);
+		List<AccountInterface> actualResult = transactionService.calculateAccountList(transactions);
 
 		// Record the end time
 		endTime = System.currentTimeMillis();
@@ -71,21 +72,21 @@ public class TransactionServiceTest {
 	@ParameterizedTest
 	@MethodSource("jsonFiles")
 	public void testCalculateSimple(String jsonFileName) throws IOException {
-		testCalculateMethod(jsonFileName, CalculateMethod.Simple);
+		testCalculateMethod(jsonFileName, CalculateMethod.Serial);
 	}
 
-//	@ParameterizedTest
-//	@MethodSource("jsonFiles")
-//	public void testCalculateSerial(String jsonFileName) throws IOException {
-//		testCalculateMethod(jsonFileName, CalculateMethod.Serial);
-//	}
-//
-//	@ParameterizedTest
-//	@MethodSource("jsonFiles")
-//	public void testCalculateParallel(String jsonFileName) throws IOException {
-//		testCalculateMethod(jsonFileName, CalculateMethod.Parallel);
-//	}
-//
+	@ParameterizedTest
+	@MethodSource("jsonFiles")
+	public void testCalculateSerial(String jsonFileName) throws IOException {
+		testCalculateMethod(jsonFileName, CalculateMethod.Serial);
+	}
+
+	@ParameterizedTest
+	@MethodSource("jsonFiles")
+	public void testCalculateParallel(String jsonFileName) throws IOException {
+		testCalculateMethod(jsonFileName, CalculateMethod.Parallel);
+	}
+
 	private void testCalculateMethod(String jsonFileName, CalculateMethod calculateMethod)
 			throws IOException, StreamReadException, DatabindException {
 		// Arrange
@@ -93,13 +94,13 @@ public class TransactionServiceTest {
 		List<Transaction> transactions = readInput(jsonFileName);
 		long endTime = System.currentTimeMillis();
 		long elapsedTime1 = endTime - startTime;
-		List<Account> expectedResult = readOutput(jsonFileName);
+		List<AccountImplSerial> expectedResult = readOutput(jsonFileName);
 
 		// Record the start time
 		startTime = System.currentTimeMillis();
 
 		// Act
-		List<Account> actualResult = transactionService.calculateAccountList(transactions, calculateMethod);
+		List<AccountInterface> actualResult = transactionService.calculateAccountList(transactions, calculateMethod);
 
 		// Record the end time
 		endTime = System.currentTimeMillis();
@@ -113,13 +114,13 @@ public class TransactionServiceTest {
 		assertEquals(expectedResult, actualResult);
 	}
 
-	private List<Account> readOutput(String jsonFileName) throws IOException, StreamReadException, DatabindException {
+	private List<AccountImplSerial> readOutput(String jsonFileName) throws IOException, StreamReadException, DatabindException {
 		String testFilePath = TESTING_FILES_RESOURCE_DIRECTORY_OUTPUT + jsonFileName;
 		testFilePath = testFilePath.replace("_request", "_response");
 		ClassPathResource expectedResource = new ClassPathResource(testFilePath);
 		ObjectMapper objectMapper = new ObjectMapper();
-		List<Account> expectedResult = objectMapper.readValue(expectedResource.getInputStream(),
-				new TypeReference<List<Account>>() {
+		List<AccountImplSerial> expectedResult = objectMapper.readValue(expectedResource.getInputStream(),
+				new TypeReference<List<AccountImplSerial>>() {
 				});
 		return expectedResult;
 	}

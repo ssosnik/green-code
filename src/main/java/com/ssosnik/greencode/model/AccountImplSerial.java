@@ -1,32 +1,27 @@
 package com.ssosnik.greencode.model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 import javax.annotation.Generated;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
-
 /**
- * Account
+ * AccountImplSerial
  */
 
 @Generated(value = "com.ssosnik.greencode.codegen.languages.SpringCodegen", date = "2023-04-01T16:15:24.122895800+02:00[Europe/Warsaw]")
-public class Account {
+public class AccountImplSerial implements AccountInterface {
 
 	private String account;
+	private Integer debitCount = 0;
+	private Integer creditCount = 0;
+	private BigDecimal balance = BigDecimal.ZERO;
 
-	private Integer debitCount;
+	public AccountImplSerial() {
+	}
 
-	private Integer creditCount;
-
-	private Float balance;
-
-	public Account account(String account) {
-		this.account = account;
-		return this;
+	public AccountImplSerial(String accountNumber) {
+		this.account = accountNumber;
 	}
 
 	/**
@@ -34,20 +29,9 @@ public class Account {
 	 * 
 	 * @return account
 	 */
-	@Size(min = 26, max = 26)
-	@Schema(name = "account", example = "3.2309111922661937E+25", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-	@JsonProperty("account")
+	@Override
 	public String getAccount() {
 		return account;
-	}
-
-	public void setAccount(String account) {
-		this.account = account;
-	}
-
-	public Account debitCount(Integer debitCount) {
-		this.debitCount = debitCount;
-		return this;
 	}
 
 	/**
@@ -56,19 +40,9 @@ public class Account {
 	 * @return debitCount
 	 */
 
-	@Schema(name = "debitCount", example = "2", description = "Number of debit transactions", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-	@JsonProperty("debitCount")
+	@Override
 	public Integer getDebitCount() {
 		return debitCount;
-	}
-
-	public void setDebitCount(Integer debitCount) {
-		this.debitCount = debitCount;
-	}
-
-	public Account creditCount(Integer creditCount) {
-		this.creditCount = creditCount;
-		return this;
 	}
 
 	/**
@@ -77,19 +51,9 @@ public class Account {
 	 * @return creditCount
 	 */
 
-	@Schema(name = "creditCount", example = "2", description = "Number of credit transactions", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-	@JsonProperty("creditCount")
+	@Override
 	public Integer getCreditCount() {
 		return creditCount;
-	}
-
-	public void setCreditCount(Integer creditCount) {
-		this.creditCount = creditCount;
-	}
-
-	public Account balance(Float balance) {
-		this.balance = balance;
-		return this;
 	}
 
 	/**
@@ -98,15 +62,11 @@ public class Account {
 	 * @return balance
 	 */
 
-	@Schema(name = "balance", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-	@JsonProperty("balance")
-	public Float getBalance() {
+	@Override
+	public BigDecimal getBalance() {
 		return balance;
 	}
 
-	public void setBalance(Float balance) {
-		this.balance = balance;
-	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -116,7 +76,7 @@ public class Account {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		Account account = (Account) o;
+		AccountImplSerial account = (AccountImplSerial) o;
 		return Objects.equals(this.account, account.account) && Objects.equals(this.debitCount, account.debitCount)
 				&& Objects.equals(this.creditCount, account.creditCount)
 				&& Objects.equals(this.balance, account.balance);
@@ -130,7 +90,7 @@ public class Account {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("class Account {\n");
+		sb.append("class AccountImplSerial {\n");
 		sb.append("    account: ").append(toIndentedString(account)).append("\n");
 		sb.append("    debitCount: ").append(toIndentedString(debitCount)).append("\n");
 		sb.append("    creditCount: ").append(toIndentedString(creditCount)).append("\n");
@@ -148,5 +108,25 @@ public class Account {
 			return "null";
 		}
 		return o.toString().replace("\n", "\n    ");
+	}
+
+	@Override
+	public void creditCountIncrement() {
+		creditCount++;		
+	}
+
+	@Override
+	public void debitCountIncrement() {
+		debitCount++;				
+	}
+
+	@Override
+	public void balanceIncrease(BigDecimal amount) {
+		balance = balance.add(amount);		
+	}
+
+	@Override
+	public void balanceDecrease(BigDecimal amount) {
+		balance = balance.subtract(amount);				
 	}
 }
