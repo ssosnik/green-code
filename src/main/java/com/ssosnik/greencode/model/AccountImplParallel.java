@@ -55,6 +55,6 @@ public class AccountImplParallel implements AccountInterface {
 
     @Override
     public void balanceDecrease(BigDecimal amount) {
-        balance.accumulateAndGet(amount.negate(), BigDecimal::add);
+        balance.accumulateAndGet(amount, BigDecimal::subtract);
     }
 }

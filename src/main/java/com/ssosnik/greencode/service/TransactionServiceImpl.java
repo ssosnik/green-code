@@ -23,19 +23,21 @@ public class TransactionServiceImpl implements TransactionService {
 
 
 	@Override
-	public List<AccountInterface> calculateAccountList(List<Transaction> transaction) {
-		// TODO Auto-generated method stub
-		return new ArrayList<>();
+	public List<AccountInterface> calculateAccountList(List<Transaction> transactions) {
+		List<AccountInterface>  accountList = transactions.size() < 20000 ? simpleSolution(transactions)
+				: parallelSolution(transactions);
+
+		return accountList;	
 	}
 
 
 	@Override
 	public List<AccountInterface> calculateAccountList(List<Transaction> transactions,
 			CalculateMethod method) {
-		List<AccountInterface>  combinedAtmList = method == CalculateMethod.Serial ? simpleSolution(transactions)
+		List<AccountInterface>  accountList = method == CalculateMethod.Serial ? simpleSolution(transactions)
 				: parallelSolution(transactions);
 
-		return combinedAtmList;	
+		return accountList;	
 	}
 
 	private List<AccountInterface> parallelSolution(List<Transaction> transactions) {
@@ -47,7 +49,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 			AccountInterface debitAccount = accountMap.computeIfAbsent(t.getDebitAccount(), k -> newParallelAccount(k));
 			debitAccount.debitCountIncrement();
-			debitAccount.balanceIncrease(t.getAmount());
+			debitAccount.balanceDecrease(t.getAmount());
 		});
 
 		Map<String, AccountInterface> sortedMap = new TreeMap<>(accountMap);

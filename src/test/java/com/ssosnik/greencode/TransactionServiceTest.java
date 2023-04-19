@@ -2,6 +2,7 @@ package com.ssosnik.greencode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -42,8 +43,8 @@ public class TransactionServiceTest {
 
 	private final ObjectMapper objectMapper = new ObjectMapper();
 
-//	@ParameterizedTest
-//	@MethodSource("jsonFiles")
+	@ParameterizedTest
+	@MethodSource("jsonFiles")
 	public void testCalculate(String jsonFileName) throws IOException {
 		// Arrange
 		long startTime = System.currentTimeMillis();
@@ -59,19 +60,32 @@ public class TransactionServiceTest {
 		List<AccountInterface> actualResult = transactionService.calculateAccountList(transactions);
 
 		// Record the end time
+		endTime = System.currentTimeMillis();		
+		long elapsedTime2 = endTime - startTime;
+
+		// Record the start time
+		startTime = System.currentTimeMillis();
+
+		// write result to bytearray
+		byte[] jsonBytes = writeJsonToByteArray(actualResult);
+		
+		// Record the end time
 		endTime = System.currentTimeMillis();
 
+		// read from byte array
+		List<AccountImplSerial> actualResult2 = readJsonFromByteArray(jsonBytes);
+
 		// Calculate and print the elapsed time
-		long elapsedTime2 = endTime - startTime;
-		System.out.println("calculate: " + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2);
+		long elapsedTime3 = endTime - startTime;
+		System.out.println("calculate: " + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2 + ", " + elapsedTime3);
 
 		// Assert
-		assertEquals(expectedResult, actualResult);
+		assertEquals(expectedResult, actualResult2);
 	}
 
 	@ParameterizedTest
 	@MethodSource("jsonFiles")
-	public void testCalculateSimple(String jsonFileName) throws IOException {
+	public void testCalculateSerial1(String jsonFileName) throws IOException {
 		testCalculateMethod(jsonFileName, CalculateMethod.Serial);
 	}
 
@@ -86,6 +100,13 @@ public class TransactionServiceTest {
 	public void testCalculateParallel(String jsonFileName) throws IOException {
 		testCalculateMethod(jsonFileName, CalculateMethod.Parallel);
 	}
+	
+	@ParameterizedTest
+	@MethodSource("jsonFiles")
+	public void testCalculateParallel1(String jsonFileName) throws IOException {
+		testCalculateMethod(jsonFileName, CalculateMethod.Parallel);
+	}
+	
 
 	private void testCalculateMethod(String jsonFileName, CalculateMethod calculateMethod)
 			throws IOException, StreamReadException, DatabindException {
@@ -103,15 +124,28 @@ public class TransactionServiceTest {
 		List<AccountInterface> actualResult = transactionService.calculateAccountList(transactions, calculateMethod);
 
 		// Record the end time
+		endTime = System.currentTimeMillis();		
+		long elapsedTime2 = endTime - startTime;
+
+		// Record the start time
+		startTime = System.currentTimeMillis();
+
+		// write result to bytearray
+		byte[] jsonBytes = writeJsonToByteArray(actualResult);
+		
+		// Record the end time
 		endTime = System.currentTimeMillis();
 
+		// read from byte array
+		List<AccountImplSerial> actualResult2 = readJsonFromByteArray(jsonBytes);
+
 		// Calculate and print the elapsed time
-		long elapsedTime2 = endTime - startTime;
-		System.out.println(
-				calculateMethod.toString() + ", " + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2);
+		long elapsedTime3 = endTime - startTime;
+		System.out.println(calculateMethod.toString() + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2 + ", " + elapsedTime3);
+
 
 		// Assert
-		assertEquals(expectedResult, actualResult);
+		assertEquals(expectedResult, actualResult2);
 	}
 
 	private List<AccountImplSerial> readOutput(String jsonFileName) throws IOException, StreamReadException, DatabindException {
@@ -140,4 +174,24 @@ public class TransactionServiceTest {
 				.map(path -> path.getFileName().toString()).collect(Collectors.toList());
 		return fileNames;
 	}
+	
+	public byte[] writeJsonToByteArray(Object myObject) {
+		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+			objectMapper.writeValue(outputStream, myObject);
+			return outputStream.toByteArray();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public List<AccountImplSerial> readJsonFromByteArray(byte[] jsonBytes) {
+        try {
+        	List<AccountImplSerial> expectedResult = objectMapper.readValue(jsonBytes, new TypeReference<List<AccountImplSerial>>() {});
+            return expectedResult;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
