@@ -1,5 +1,6 @@
 package com.ssosnik.greencode.model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 import javax.annotation.Generated;
@@ -20,7 +21,7 @@ public class Transaction {
 
 	private String creditAccount;
 
-	private Float amount;
+	private BigDecimal amount;
 
 	public Transaction debitAccount(String debitAccount) {
 		this.debitAccount = debitAccount;
@@ -64,7 +65,7 @@ public class Transaction {
 		this.creditAccount = creditAccount;
 	}
 
-	public Transaction amount(Float amount) {
+	public Transaction amount(BigDecimal amount) {
 		this.amount = amount;
 		return this;
 	}
@@ -77,11 +78,11 @@ public class Transaction {
 
 	@Schema(name = "amount", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
 	@JsonProperty("amount")
-	public Float getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Float amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 

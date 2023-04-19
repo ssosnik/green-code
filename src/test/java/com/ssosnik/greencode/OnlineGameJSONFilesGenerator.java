@@ -21,7 +21,7 @@ public class OnlineGameJSONFilesGenerator {
 	private static final int MAX_SCORE = 100000;
 
 	private static final ObjectMapper objectMapper = new ObjectMapper().configure(SerializationFeature.INDENT_OUTPUT,
-			true);
+			false);
 
 	private static final File ONLINEGAME_SERVICE_FOLDER_INPUT = new File(
 			"src/test/resources/testing-files/onlinegame/request");
@@ -53,7 +53,7 @@ public class OnlineGameJSONFilesGenerator {
 		OnlineGameJSONFilesGenerator generator = new OnlineGameJSONFilesGenerator();
 
 		for (int i = 1; i <= 20; i++) {
-			Integer size = i*100;
+			Integer size = i*1000;
 			Players players = generator.createRandomClanList(size.intValue());
 			String filename = String.format("players%05d.json", size);;
 			generator.saveToJsonFile(players, new File(ONLINEGAME_SERVICE_FOLDER_INPUT, filename));

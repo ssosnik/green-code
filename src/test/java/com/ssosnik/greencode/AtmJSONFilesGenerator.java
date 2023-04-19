@@ -21,7 +21,7 @@ public class AtmJSONFilesGenerator {
 	private static final int MAX_ATM_ID = 9999;
 
 	private static final ObjectMapper objectMapper = new ObjectMapper().configure(SerializationFeature.INDENT_OUTPUT,
-			true);
+			false);
 
 	private static final File ATM_SERVICE_FOLDER_INPUT = new File(
 			"src/test/resources/testing-files/atmservice/request");
