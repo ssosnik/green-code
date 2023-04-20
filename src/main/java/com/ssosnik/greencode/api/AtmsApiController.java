@@ -14,7 +14,6 @@ import com.ssosnik.greencode.service.AtmService;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.annotation.Generated;
-import jakarta.validation.Valid;
 
 @Generated(value = "com.ssosnik.greencode.codegen.languages.SpringCodegen", date = "2023-04-01T15:51:15.919232900+02:00[Europe/Warsaw]")
 @Controller
@@ -26,7 +25,7 @@ public class AtmsApiController implements AtmsApi {
 
 	@Override
 	public ResponseEntity<List<ATM>> calculate(
-			@Parameter(name = "Task", description = "", required = true) @Valid @RequestBody List<Task> taskList) {
+			@Parameter(name = "Task", description = "", required = true) @RequestBody List<Task> taskList) {
 		List<ATM> atmList = atmService.calculateSortedATMList(taskList);
 		return ResponseEntity.ok(atmList);
 	}

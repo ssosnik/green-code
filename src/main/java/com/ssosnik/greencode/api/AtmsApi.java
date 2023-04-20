@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,10 +24,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Generated;
-import jakarta.validation.Valid;
 
 @Generated(value = "com.ssosnik.greencode.codegen.languages.SpringCodegen", date = "2023-04-01T15:51:15.919232900+02:00[Europe/Warsaw]")
-@Validated
 @Tag(name = "atms", description = "the atms API")
 public interface AtmsApi {
 
@@ -44,7 +41,7 @@ public interface AtmsApi {
 	@RequestMapping(method = RequestMethod.POST, value = "/atms/calculateOrder", produces = {
 			"application/json" }, consumes = { "application/json" })
 	default ResponseEntity<List<ATM>> calculate(
-			@Parameter(name = "Task", description = "", required = true) @Valid @RequestBody List<Task> task) {
+			@Parameter(name = "Task", description = "", required = true) @RequestBody List<Task> task) {
 		return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
 	}
