@@ -1,0 +1,1 @@
+curl -w "\nTotal time: %{time_total}s\n" -o response.json -X POST http://localhost:8080/atms/calculateOrder -H "Content-Type: application/json" -d @src\test\resources\testing-files\atmservice\request\atm1000000.json
