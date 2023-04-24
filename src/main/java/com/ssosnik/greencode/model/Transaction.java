@@ -8,7 +8,6 @@ import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 
 /**
  * Transaction
@@ -33,7 +32,6 @@ public class Transaction {
 	 * 
 	 * @return debitAccount
 	 */
-	@Size(min = 26, max = 26)
 	@Schema(name = "debitAccount", example = "3.2309111922661937E+25", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
 	@JsonProperty("debitAccount")
 	public String getDebitAccount() {
@@ -54,7 +52,6 @@ public class Transaction {
 	 * 
 	 * @return creditAccount
 	 */
-	@Size(min = 26, max = 26)
 	@Schema(name = "creditAccount", example = "3.107431869813706E+25", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
 	@JsonProperty("creditAccount")
 	public String getCreditAccount() {

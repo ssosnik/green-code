@@ -9,10 +9,6 @@ import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Size;
 
 /**
  * Players
@@ -23,8 +19,7 @@ public class Players {
 
 	private Integer groupCount;
 
-	@Valid
-	private List<@Valid Clan> clans;
+	private List<Clan> clans;
 
 	public Players groupCount(Integer groupCount) {
 		this.groupCount = groupCount;
@@ -36,8 +31,6 @@ public class Players {
 	 * 
 	 * @return groupCount
 	 */
-	@Min(1)
-	@Max(1000)
 	@Schema(name = "groupCount", example = "6", description = "Number of players in single group", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
 	@JsonProperty("groupCount")
 	public Integer getGroupCount() {
@@ -48,7 +41,7 @@ public class Players {
 		this.groupCount = groupCount;
 	}
 
-	public Players clans(List<@Valid Clan> clans) {
+	public Players clans(List<Clan> clans) {
 		this.clans = clans;
 		return this;
 	}
@@ -66,15 +59,13 @@ public class Players {
 	 * 
 	 * @return clans
 	 */
-	@Valid
-	@Size(max = 20000)
 	@Schema(name = "clans", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
 	@JsonProperty("clans")
-	public List<@Valid Clan> getClans() {
+	public List<Clan> getClans() {
 		return clans;
 	}
 
-	public void setClans(List<@Valid Clan> clans) {
+	public void setClans(List<Clan> clans) {
 		this.clans = clans;
 	}
 

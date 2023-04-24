@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 
 public interface AccountInterface {
 
@@ -14,7 +13,6 @@ public interface AccountInterface {
 	 * 
 	 * @return account
 	 */
-	@Size(min = 26, max = 26)
 	@Schema(name = "account", example = "3.2309111922661937E+25", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
 	@JsonProperty("account")
 	String getAccount();

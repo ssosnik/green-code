@@ -7,8 +7,6 @@ import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 
 /**
  * ATMs details
@@ -27,7 +25,7 @@ public class ATM {
 		this.atmId = null;
 	}
 
-	public ATM(@Min(1) @Max(9999) Integer region, @Min(1) @Max(9999) Integer atmId) {
+	public ATM(Integer region, Integer atmId) {
 		this.region = region;
 		this.atmId = atmId;
 	}
@@ -42,8 +40,6 @@ public class ATM {
 	 * 
 	 * @return region
 	 */
-	@Min(1)
-	@Max(9999)
 	@Schema(name = "region", example = "10", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
 	@JsonProperty("region")
 	public Integer getRegion() {
@@ -64,8 +60,6 @@ public class ATM {
 	 * 
 	 * @return atmId
 	 */
-	@Min(1)
-	@Max(9999)
 	@Schema(name = "atmId", example = "500", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
 	@JsonProperty("atmId")
 	public Integer getAtmId() {

@@ -7,8 +7,6 @@ import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 
 /**
  * Clan
@@ -31,8 +29,6 @@ public class Clan {
 	 * 
 	 * @return numberOfPlayers
 	 */
-	@Min(1)
-	@Max(1000)
 	@Schema(name = "numberOfPlayers", example = "10", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
 	@JsonProperty("numberOfPlayers")
 	public Integer getNumberOfPlayers() {
@@ -53,8 +49,6 @@ public class Clan {
 	 * 
 	 * @return points
 	 */
-	@Min(1)
-	@Max(1000000)
 	@Schema(name = "points", example = "500", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
 	@JsonProperty("points")
 	public Integer getPoints() {

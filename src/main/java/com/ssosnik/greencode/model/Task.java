@@ -12,8 +12,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 
 /**
  * Task
@@ -78,8 +76,6 @@ public class Task {
 	 * 
 	 * @return region
 	 */
-	@Min(1)
-	@Max(9999)
 	@Schema(name = "region", example = "10", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
 	@JsonProperty("region")
 	public Integer getRegion() {
@@ -126,8 +122,6 @@ public class Task {
 	 * 
 	 * @return atmId
 	 */
-	@Min(1)
-	@Max(9999)
 	@Schema(name = "atmId", example = "500", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
 	@JsonProperty("atmId")
 	public Integer getAtmId() {

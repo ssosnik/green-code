@@ -11,7 +11,6 @@ import javax.annotation.Generated;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,10 +25,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 
 @Generated(value = "com.ssosnik.greencode.codegen.languages.SpringCodegen", date = "2023-04-01T16:14:58.930237600+02:00[Europe/Warsaw]")
-@Validated
 @Tag(name = "onlinegame", description = "the onlinegame API")
 public interface OnlinegameApi {
 
@@ -46,7 +43,7 @@ public interface OnlinegameApi {
 	@RequestMapping(method = RequestMethod.POST, value = "/onlinegame/calculate", produces = {
 			"application/json" }, consumes = { "application/json" })
 	default ResponseEntity<List<List<Clan>>> calculate(
-			@Parameter(name = "Players", description = "", required = true) @Valid @RequestBody Players players) {
+			@Parameter(name = "Players", description = "", required = true) @RequestBody Players players) {
 		return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 	}
 

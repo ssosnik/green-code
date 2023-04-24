@@ -15,7 +15,6 @@ import com.ssosnik.greencode.model.Players;
 import com.ssosnik.greencode.service.OnlineGameService;
 
 import io.swagger.v3.oas.annotations.Parameter;
-import jakarta.validation.Valid;
 
 @Generated(value = "com.ssosnik.greencode.codegen.languages.SpringCodegen", date = "2023-04-01T16:14:58.930237600+02:00[Europe/Warsaw]")
 @Controller
@@ -27,7 +26,7 @@ public class OnlinegameApiController implements OnlinegameApi {
 
 	@Override
 	public ResponseEntity<List<List<Clan>>> calculate(
-			@Parameter(name = "Players", description = "", required = true) @Valid @RequestBody Players players) {
+			@Parameter(name = "Players", description = "", required = true) @RequestBody Players players) {
 		List<List<Clan>> clanList = onlineGameService.calculateClanList(players);
 		return ResponseEntity.ok(clanList);
 	}
