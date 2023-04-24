@@ -1,6 +1,6 @@
 # Overview
 
-This project contains 3 end-points written for 
+This project contains 3 end-points written for competition "Zielona Tesla za Zielony kod"
 It is a Spring Boot Server.
 
 ## Build
