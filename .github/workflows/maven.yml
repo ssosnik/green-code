@@ -29,5 +29,5 @@ jobs:
         cache: maven
 
     - name: Build with Maven
-       run: ./build.sh
+      run: ./build.sh
 #      run: mvn clean package
