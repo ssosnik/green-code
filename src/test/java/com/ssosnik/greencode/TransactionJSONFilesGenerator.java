@@ -83,13 +83,28 @@ public class TransactionJSONFilesGenerator {
 
 		for (int i = 1; i <= 15; i++) {
 			Integer size = i*10000;
+			
+			long startTime = System.currentTimeMillis();			
 			List<Transaction> transactions = generator.createRandomTransactionList(size.intValue());
+			long endTime = System.currentTimeMillis();
+			long elapsedTime1 = endTime - startTime;
+
 			String filename = String.format("transactions%06d.json", size);;
 			generator.saveToJsonFile(transactions, new File(TRANSACTION_SERVICE_FOLDER_INPUT, filename));
-
+			
+			startTime = System.currentTimeMillis();			
 			TransactionService transactionService = new TransactionServiceImpl();
 			List<AccountInterface> actualResult = transactionService.calculateAccountList(transactions, CalculateMethod.Serial);
+			endTime = System.currentTimeMillis();
+			long elapsedTime2 = endTime - startTime;
+			
+			startTime = System.currentTimeMillis();			
 			generator.saveToJsonFile(actualResult, new File(TRANSACTION_SERVICE_FOLDER_OUTPUT, filename));
+			endTime = System.currentTimeMillis();
+			long elapsedTime3 = endTime - startTime;
+			
+			System.out.println(String.format("%s generation time: %d, %d, %d", filename, elapsedTime1, elapsedTime2, elapsedTime3));
+
 
 		}
 	}

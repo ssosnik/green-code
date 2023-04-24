@@ -1,6 +1,7 @@
 package com.ssosnik.greencode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -62,7 +63,9 @@ public class OnlineGameServiceTest {
 
 		// Calculate and print the elapsed time
 		long elapsedTime2 = endTime - startTime;
-		System.out.println("calculate: " + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2);
+		System.out.println(String.format("calculate time %s, %s: %d, %d", jsonFileName,
+				jsonFileName.substring(7, 12), elapsedTime1, elapsedTime2));
+
 
 		// Assert
 		assertEquals(expectedResult, actualResult);
@@ -79,13 +82,7 @@ public class OnlineGameServiceTest {
 	public void testCalculateOptimized(String jsonFileName) throws IOException {
 		testCalculateMethod(jsonFileName, CalculateMethod.Optimized);
 	}
-//
-//	@ParameterizedTest
-//	@MethodSource("jsonFiles")
-//	public void testCalculateParallel(String jsonFileName) throws IOException {
-//		testCalculateMethod(jsonFileName, CalculateMethod.Parallel);
-//	}
-//
+	
 	private void testCalculateMethod(String jsonFileName, CalculateMethod calculateMethod)
 			throws IOException, StreamReadException, DatabindException {
 		// Arrange
@@ -106,11 +103,60 @@ public class OnlineGameServiceTest {
 
 		// Calculate and print the elapsed time
 		long elapsedTime2 = endTime - startTime;
-		System.out.println(calculateMethod.toString() + ", " + jsonFileName + ", " + jsonFileName.substring(7, 12) 
-				+" time: " + elapsedTime1 + ", " + elapsedTime2);
+		System.out.println(String.format("%s time %s, %s: %d, %d", calculateMethod.toString(), jsonFileName,
+				jsonFileName.substring(7, 12), elapsedTime1, elapsedTime2));
 
 		// Assert
 		assertEquals(expectedResult, actualResult);
+	}
+
+	
+	@ParameterizedTest
+	@MethodSource("jsonFiles")
+	public void testCalculateSimpleTime(String jsonFileName) throws IOException {
+		testCalculateMethodTime(jsonFileName, CalculateMethod.Simple);
+	}
+
+	@ParameterizedTest
+	@MethodSource("jsonFiles")
+	public void testCalculateOptimizedTime(String jsonFileName) throws IOException {
+		testCalculateMethodTime(jsonFileName, CalculateMethod.Optimized);
+	}
+	
+	private void testCalculateMethodTime(String jsonFileName, CalculateMethod calculateMethod)
+			throws IOException, StreamReadException, DatabindException {
+		long[] elapsedTime = {0, 0, 0, 0, 0};
+
+		for (int i = 0; i < 10; i++) {
+			// Arrange
+			long startTime = System.currentTimeMillis();
+			Players players = readInput(jsonFileName);
+			long endTime = System.currentTimeMillis();
+			elapsedTime[0] += endTime - startTime;
+	
+			// Record the start time
+			startTime = System.currentTimeMillis();
+	
+			// Act
+			List<List<Clan>> actualResult = onlineGameService.calculateClanList(players, calculateMethod);
+	
+			// Record the end time
+			endTime = System.currentTimeMillis();
+	
+			// Calculate and print the elapsed time
+			elapsedTime[1] += endTime - startTime;
+			
+			startTime = System.currentTimeMillis();
+			byte[] data = objectMapper.writeValueAsBytes(actualResult);
+			endTime = System.currentTimeMillis();
+			elapsedTime[2] += endTime - startTime;
+			
+			assertTrue(data.length >= 0);
+
+		}
+
+		long totalTime = elapsedTime[0] + elapsedTime[1] + elapsedTime[2];
+		System.out.println(String.format("Onlinegame Time %s, %s: %d + %d + %d = %d", calculateMethod.toString(), jsonFileName, elapsedTime[0], elapsedTime[1], elapsedTime[2], totalTime));	
 	}
 
 	private List<List<Clan>> readOutput(String jsonFileName) throws IOException, StreamReadException, DatabindException {

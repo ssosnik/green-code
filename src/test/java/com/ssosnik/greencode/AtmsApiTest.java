@@ -1,7 +1,6 @@
 package com.ssosnik.greencode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -59,7 +58,7 @@ public class AtmsApiTest {
 
 	@ParameterizedTest
 	@MethodSource("jsonFiles")
-	public void testCalculate(String jsonFileName) throws Exception {
+	public void testCalculateTime(String jsonFileName) throws Exception {
 		// Arrange
 		String testFilePath = TESTING_FILES_RESOURCE_DIRECTORY_INPUT + jsonFileName;
 		ClassPathResource inputResource = new ClassPathResource(testFilePath);
@@ -85,7 +84,7 @@ public class AtmsApiTest {
 		}
 		long endTime = System.currentTimeMillis();
 		long requestTime = (endTime - startTime) / 10;
-		System.out.println(jsonFileName + " request time: " + requestTime);
+		System.out.println(String.format("%s request time: %s", jsonFileName, requestTime));
 
 	}
 

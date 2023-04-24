@@ -1,6 +1,7 @@
 package com.ssosnik.greencode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -77,17 +78,13 @@ public class TransactionServiceTest {
 
 		// Calculate and print the elapsed time
 		long elapsedTime3 = endTime - startTime;
-		System.out.println("calculate: " + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2 + ", " + elapsedTime3);
+		System.out.println(String.format("calculate time %s: %d, %d, %d", jsonFileName,
+				elapsedTime1, elapsedTime2, elapsedTime3));
 
 		// Assert
 		assertEquals(expectedResult, actualResult2);
 	}
 
-	@ParameterizedTest
-	@MethodSource("jsonFiles")
-	public void testCalculateSerial1(String jsonFileName) throws IOException {
-		testCalculateMethod(jsonFileName, CalculateMethod.Serial);
-	}
 
 	@ParameterizedTest
 	@MethodSource("jsonFiles")
@@ -103,8 +100,14 @@ public class TransactionServiceTest {
 	
 	@ParameterizedTest
 	@MethodSource("jsonFiles")
-	public void testCalculateParallel1(String jsonFileName) throws IOException {
-		testCalculateMethod(jsonFileName, CalculateMethod.Parallel);
+	public void testCalculateSerialTime(String jsonFileName) throws IOException {
+		testCalculateMethodTime(jsonFileName, CalculateMethod.Serial);
+	}
+
+	@ParameterizedTest
+	@MethodSource("jsonFiles")
+	public void testCalculateParallelTime(String jsonFileName) throws IOException {
+		testCalculateMethodTime(jsonFileName, CalculateMethod.Parallel);
 	}
 	
 
@@ -141,12 +144,56 @@ public class TransactionServiceTest {
 
 		// Calculate and print the elapsed time
 		long elapsedTime3 = endTime - startTime;
-		System.out.println(calculateMethod.toString() + jsonFileName + " time: " + elapsedTime1 + ", " + elapsedTime2 + ", " + elapsedTime3);
+		System.out.println(String.format("%s time %s: %d, %d, %d", calculateMethod.toString(), jsonFileName,
+				elapsedTime1, elapsedTime2, elapsedTime3));
 
 
 		// Assert
 		assertEquals(expectedResult, actualResult2);
 	}
+	
+	private void testCalculateMethodTime(String jsonFileName, CalculateMethod calculateMethod)
+			throws IOException, StreamReadException, DatabindException {
+		// Arrange
+		long[] elapsedTime = {0, 0, 0, 0, 0};
+
+		for (int i = 0; i < 10; i++) {
+
+			long startTime = System.currentTimeMillis();
+			List<Transaction> transactions = readInput(jsonFileName);
+			long endTime = System.currentTimeMillis();
+			elapsedTime[0] += endTime - startTime;
+	
+			// Record the start time
+			startTime = System.currentTimeMillis();
+	
+			// Act
+			List<AccountInterface> actualResult = transactionService.calculateAccountList(transactions, calculateMethod);
+	
+			// Record the end time
+			endTime = System.currentTimeMillis();		
+			elapsedTime[1] += endTime - startTime;
+	
+			// Record the start time
+			startTime = System.currentTimeMillis();
+	
+			// write result to bytearray
+			byte[] jsonBytes = writeJsonToByteArray(actualResult);
+			
+			// Record the end time
+			endTime = System.currentTimeMillis();
+	
+			assertTrue(jsonBytes.length >= 0);
+	
+			// Calculate and print the elapsed time
+			elapsedTime[2] += endTime - startTime;
+		}
+
+		long totalTime = elapsedTime[0] + elapsedTime[1] + elapsedTime[2];
+		System.out.println(String.format("Transaction Time %s, %s: %d + %d + %d = %d", calculateMethod.toString(), jsonFileName, elapsedTime[0], elapsedTime[1], elapsedTime[2], totalTime));	
+
+	}
+
 
 	private List<AccountImplSerial> readOutput(String jsonFileName) throws IOException, StreamReadException, DatabindException {
 		String testFilePath = TESTING_FILES_RESOURCE_DIRECTORY_OUTPUT + jsonFileName;

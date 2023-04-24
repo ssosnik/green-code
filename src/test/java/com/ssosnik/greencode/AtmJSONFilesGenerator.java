@@ -55,13 +55,27 @@ public class AtmJSONFilesGenerator {
 		for (int i = 2; i <= 6; i++) {
 			BigInteger a = new BigInteger("10");
 			BigInteger size = a.pow(i);
+			long startTime = System.currentTimeMillis();
 			List<Task> taskList = generator.createRandomTaskList(size.intValue());
+			long endTime = System.currentTimeMillis();
+			long elapsedTime1 = endTime - startTime;
+
 			String filename = "atm" + size.toString() + ".json";
 			generator.saveToJsonFile(taskList, new File(ATM_SERVICE_FOLDER_INPUT, filename));
 
+			startTime = System.currentTimeMillis();
 			AtmService atmService = new AtmServiceImpl();
 			List<ATM> actualResult = atmService.calculateSortedATMList(taskList);
+			endTime = System.currentTimeMillis();
+			long elapsedTime2 = endTime - startTime;
+
+			startTime = System.currentTimeMillis();
 			generator.saveToJsonFile(actualResult, new File(ATM_SERVICE_FOLDER_OUTPUT, filename));
+			endTime = System.currentTimeMillis();
+			long elapsedTime3 = endTime - startTime;
+			
+			System.out.println(String.format("%s generation time: %d, %d, %d", filename, elapsedTime1, elapsedTime2, elapsedTime3));
+
 
 		}
 	}

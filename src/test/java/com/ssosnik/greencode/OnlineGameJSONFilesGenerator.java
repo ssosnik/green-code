@@ -56,13 +56,33 @@ public class OnlineGameJSONFilesGenerator {
 
 		for (int i = 1; i <= 20; i++) {
 			Integer size = i*1000;
+			
+			long startTime = System.currentTimeMillis();
 			Players players = generator.createRandomClanList(size.intValue());
+			long endTime = System.currentTimeMillis();
+			long elapsedTime1 = endTime - startTime;
+
 			String filename = String.format("players%05d.json", size);
 			generator.saveToJsonFile(players, new File(ONLINEGAME_SERVICE_FOLDER_INPUT, filename));
 
+			startTime = System.currentTimeMillis();
 			OnlineGameService onlineGameService = new OnlineGameServiceImpl();
-			List<List<Clan>> actualResult = onlineGameService.calculateClanList(players, CalculateMethod.Simple);
+			List<List<Clan>> actualResult = onlineGameService.calculateClanList(players, CalculateMethod.Optimized);
+			endTime = System.currentTimeMillis();
+			long elapsedTime2 = endTime - startTime;
+
+			startTime = System.currentTimeMillis();
+			actualResult = onlineGameService.calculateClanList(players, CalculateMethod.Simple);
+			endTime = System.currentTimeMillis();
+			long elapsedTime3 = endTime - startTime;
+
+			
+			startTime = System.currentTimeMillis();			
 			generator.saveToJsonFile(actualResult, new File(ONLINEGAME_SERVICE_FOLDER_OUTPUT, filename));
+			endTime = System.currentTimeMillis();
+			long elapsedTime4 = endTime - startTime;
+			
+			System.out.println(String.format("%s generation time: %d, %d, %d, %d", filename, elapsedTime1, elapsedTime2, elapsedTime3, elapsedTime4));
 
 		}
 	}
