@@ -4,7 +4,7 @@ This project contains 3 end-points written for competition "Zielona Tesla za Zie
 It is a Spring Boot Server.
 
 ## Build
-Build the project as a standard maven project using shell script:
+Build the project as any standard maven project using shell script:
 
     build.sh
     
