@@ -10,7 +10,7 @@ Build the project as any standard maven project using shell script:
     
 or directly from command-line:
 
-    maven clean package
+    mvn clean package
 
 ## Run
 Start your server as a simple java application using shell script:
